@@ -10,23 +10,23 @@ const subjects = [
 
 export default function SidebarLeft() {
   return (
-    <div className="flex h-full w-64 flex-col gap-7 border-r border-r-gray-700 p-3 text-white">
+    <div className="flex h-full w-64 flex-col gap-7 border-r border-r-gray-700 p-3 text-gray-200">
       <div className="flex w-full flex-col gap-1 text-sm">
         <p className="px-3 text-xs font-bold tracking-wide text-gray-500 uppercase">
           Feeds
         </p>
 
-        <div className="flex items-center gap-2 rounded border-b-gray-700 bg-gray-900 px-3 py-1 font-semibold transition-colors">
+        <div className="flex items-center gap-2 rounded border-b-gray-700 bg-gray-900 px-3 py-1 font-semibold text-white transition-colors">
           <Home size={16} />
           Home
         </div>
 
-        <div className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900">
+        <div className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white">
           <Star size={16} />
           Popular
         </div>
 
-        <div className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900">
+        <div className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white">
           <Clock size={16} />
           Recent
         </div>
@@ -40,7 +40,7 @@ export default function SidebarLeft() {
         {subjects.map((subject) => (
           <div
             key={subject.name}
-            className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900"
+            className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white"
           >
             <div
               className={`${subject.color} h-2 w-2 rounded-full`}
@@ -58,7 +58,7 @@ export default function SidebarLeft() {
         </p>
       </div>
 
-      <div className="mt-auto flex items-center gap-2 rounded px-3 py-1 transition-colors hover:bg-gray-900">
+      <div className="mt-auto flex items-center gap-2 rounded px-3 py-1 text-sm transition-colors hover:bg-gray-900 hover:text-white">
         <Settings size={16} />
         Settings
       </div>
