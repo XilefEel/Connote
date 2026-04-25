@@ -5,13 +5,11 @@ import Topbar from "../components/home/Topbar";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-gray-950">
+    <div className="flex h-screen flex-col bg-gray-950">
       <Topbar />
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1 items-stretch">
         <SidebarLeft />
-        <div className="flex h-full w-full items-center justify-center">
-          <MainView />
-        </div>
+        <MainView />
         <SidebarRight />
       </div>
     </div>
