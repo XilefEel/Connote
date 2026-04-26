@@ -1,6 +1,6 @@
 import MainView from "../components/create_note/MainView";
 import Sidebar from "../components/create_note/Sidebar";
-import Topbar from "../components/Topbar";
+import Topbar from "../components/create_note/TopBar";
 
 export default function CreateNotePage() {
   return (
