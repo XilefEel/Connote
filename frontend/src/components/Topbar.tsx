@@ -35,13 +35,15 @@ export default function Topbar() {
           <Search size={16} />
         </button>
       </div>
+
       <div className="flex shrink-0 items-center gap-3">
         <Link
-          to="/notes/new"
+          to="/note/new"
           className="flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-xs text-white transition-colors hover:bg-blue-500"
         >
           <Plus size={16} /> New Note
         </Link>
+
         <Link
           to="/profile"
           className="flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-500 text-sm font-semibold text-white"
