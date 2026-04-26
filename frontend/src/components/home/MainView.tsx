@@ -1,4 +1,4 @@
-import NoteCard from "./NoteCard";
+import NoteCard from "../NoteCard";
 
 const noteCards = [
   {
@@ -8,6 +8,7 @@ const noteCards = [
     likes: 120,
     comments: 45,
     forks: 30,
+    contributors: 5,
     tags: ["Mathematics", "Calculus", "Integration"],
   },
   {
@@ -17,36 +18,37 @@ const noteCards = [
     likes: 95,
     comments: 20,
     forks: 15,
+    contributors: 3,
     tags: ["Chemistry", "Organic Chemistry", "Reaction Mechanisms"],
   },
   {
     title: "Binary trees — traversal algorithms + interview problems",
     description:
       "In-order, pre-order, post-order with animated trace diagrams. 8 LeetCode-style problems with solutions.",
-
     likes: 150,
     comments: 60,
     forks: 40,
+    contributors: 4,
     tags: ["Computer Science", "Data Structures", "Binary Trees"],
   },
   {
     title: "Quantum mechanics — Schrödinger equation solved examples",
     description:
       "Detailed solutions to the particle in a box, harmonic oscillator, and hydrogen atom. Includes visualizations of wavefunctions.",
-
     likes: 80,
     comments: 25,
     forks: 10,
+    contributors: 2,
     tags: ["Physics", "Quantum Mechanics", "Schrödinger Equation"],
   },
   {
     title: "Data structures — hash tables explained with code",
     description:
       "Hash functions, collision resolution strategies, and performance analysis. Implementations in Python and JavaScript.",
-
     likes: 110,
     comments: 35,
     forks: 25,
+    contributors: 3,
     tags: ["Computer Science", "Data Structures", "Hash Tables"],
   },
 ];
@@ -87,6 +89,7 @@ export default function MainView() {
             likes={card.likes}
             comments={card.comments}
             forks={card.forks}
+            contributors={card.contributors}
             tags={card.tags}
           />
         ))}

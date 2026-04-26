@@ -6,6 +6,7 @@ export default function NoteCard({
   likes,
   comments,
   forks,
+  contributors,
   tags,
 }: {
   title: string;
@@ -13,6 +14,7 @@ export default function NoteCard({
   likes: number;
   comments: number;
   forks: number;
+  contributors: number;
   tags: string[];
 }) {
   return (
@@ -54,7 +56,7 @@ export default function NoteCard({
         </div>
 
         <div className="ml-auto flex items-center gap-2 rounded border-b-gray-700 bg-blue-900 px-2 py-0.5 text-blue-100 transition-colors hover:text-gray-200">
-          v6.2
+          v6.2 • {contributors} contributors
         </div>
       </div>
     </div>
