@@ -2,6 +2,7 @@ import NoteCard from "../NoteCard";
 
 const noteCards = [
   {
+    id: 10,
     title: "Integration by parts — complete guide with examples",
     description:
       "Covers tabular method, LIATE rule, and common traps. 12 worked examples from MIT past exams included.",
@@ -12,6 +13,7 @@ const noteCards = [
     tags: ["Mathematics", "Calculus", "Integration"],
   },
   {
+    id: 11,
     title: "Reaction mechanisms — nucleophilic substitution SN1 & SN2",
     description:
       "Step-by-step walkthroughs with energy diagrams. Includes stereochemistry implications and leaving group rankings.",
@@ -22,6 +24,7 @@ const noteCards = [
     tags: ["Chemistry", "Organic Chemistry", "Reaction Mechanisms"],
   },
   {
+    id: 12,
     title: "Binary trees — traversal algorithms + interview problems",
     description:
       "In-order, pre-order, post-order with animated trace diagrams. 8 LeetCode-style problems with solutions.",
@@ -32,6 +35,7 @@ const noteCards = [
     tags: ["Computer Science", "Data Structures", "Binary Trees"],
   },
   {
+    id: 13,
     title: "Quantum mechanics — Schrödinger equation solved examples",
     description:
       "Detailed solutions to the particle in a box, harmonic oscillator, and hydrogen atom. Includes visualizations of wavefunctions.",
@@ -42,6 +46,7 @@ const noteCards = [
     tags: ["Physics", "Quantum Mechanics", "Schrödinger Equation"],
   },
   {
+    id: 14,
     title: "Data structures — hash tables explained with code",
     description:
       "Hash functions, collision resolution strategies, and performance analysis. Implementations in Python and JavaScript.",
@@ -82,16 +87,7 @@ export default function MainView() {
 
       <div className="flex flex-col gap-3">
         {noteCards.map((card, index) => (
-          <NoteCard
-            key={index}
-            title={card.title}
-            description={card.description}
-            likes={card.likes}
-            comments={card.comments}
-            forks={card.forks}
-            contributors={card.contributors}
-            tags={card.tags}
-          />
+          <NoteCard key={index} {...card} />
         ))}
       </div>
     </div>

@@ -6,6 +6,7 @@ import { cn } from "../../lib/utils";
 
 const noteCards = [
   {
+    id: 1,
     title: "Binary trees — traversal algorithms + interview problems",
     description:
       "In-order, pre-order, post-order with animated trace diagrams. 8 LeetCode-style problems with solutions.",
@@ -16,6 +17,7 @@ const noteCards = [
     tags: ["Computer Science", "Data Structures", "Binary Trees"],
   },
   {
+    id: 2,
     title: "Data structures — hash tables explained with code",
     description:
       "Hash functions, collision resolution strategies, and performance analysis. Implementations in Python and JavaScript.",
@@ -26,6 +28,7 @@ const noteCards = [
     tags: ["Computer Science", "Data Structures", "Hash Tables"],
   },
   {
+    id: 3,
     title: "Graph algorithms — Dijkstra's and A* explained",
     description:
       "Step-by-step explanations of Dijkstra's and A* algorithms with visualizations. Includes code examples in Python.",
@@ -36,6 +39,7 @@ const noteCards = [
     tags: ["Computer Science", "Algorithms", "Graph Theory"],
   },
   {
+    id: 4,
     title: "Sorting algorithms — quicksort, mergesort, and heapsort",
     description:
       "Detailed explanations of quicksort, mergesort, and heapsort with time complexity analysis. Code implementations included.",
@@ -46,6 +50,7 @@ const noteCards = [
     tags: ["Computer Science", "Algorithms", "Sorting"],
   },
   {
+    id: 5,
     title: "Dynamic programming — top 10 interview problems",
     description:
       "A curated list of the top 10 dynamic programming problems commonly asked in interviews, with detailed solutions and explanations.",
