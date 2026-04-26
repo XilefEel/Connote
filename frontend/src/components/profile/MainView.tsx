@@ -1,4 +1,3 @@
-import { Grid2X2, Menu, X } from "lucide-react";
 import NoteCard from "../NoteCard";
 
 const noteCards = [
@@ -54,51 +53,43 @@ const noteCards = [
   },
 ];
 
-const filters = [
-  "algorithms",
-  "exam prep",
-  "interview prep",
-  "data structures",
-  "2+ contributors",
+const tabs = [
+  {
+    label: "my notes",
+    value: 7,
+    active: true,
+  },
+  {
+    label: "forks",
+    value: 19,
+  },
+  {
+    label: "pull requests",
+    value: 8,
+  },
+  {
+    label: "likes",
+    value: 15,
+  },
 ];
 
 export default function MainView() {
   return (
-    <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-2">
-      <div className="flex flex-row items-center justify-between">
-        <div className="flex flex-col">
-          <h1 className="text-xl font-semibold text-white">
-            results for "binary tree"
-          </h1>
-          <p className="text-xs text-gray-500">24 notes</p>
-        </div>
-
-        <div className="flex flex-row items-center text-gray-200 hover:text-gray-100">
-          <button className="cursor-pointer rounded-l bg-blue-500 p-2 transition-colors hover:bg-blue-400">
-            <Menu size={16} />
-          </button>
-          <button className="cursor-pointer rounded-r bg-gray-800 p-2 transition-colors hover:bg-gray-700">
-            <Grid2X2 size={16} />
-          </button>
-        </div>
-      </div>
-
-      <div className="flex flex-row gap-1.5">
-        {filters.map((filter, index) => (
+    <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
+      <div className="flex flex-row gap-8 border-b border-gray-700 pb-2">
+        {tabs.map((tab, index) => (
           <div
             key={index}
-            className="flex flex-row items-center gap-1 rounded-lg border border-gray-700 px-3 py-0.5 hover:bg-gray-900"
+            className="group relative flex cursor-pointer flex-row items-center justify-center gap-1 rounded-lg px-4 text-xs font-semibold tracking-wide transition-colors"
           >
-            <button className="text-xs text-gray-300 transition-colors hover:text-gray-100">
-              {filter}
-            </button>
+            <span className="text-gray-300 transition-colors group-hover:text-white">
+              {tab.label}
+            </span>
+            <span className="text-gray-500">({tab.value})</span>
 
-            <button>
-              <X
-                size={12}
-                className="text-gray-500 transition-colors hover:text-gray-400"
-              />
-            </button>
+            {tab.active && (
+              <div className="absolute -bottom-2 h-0.5 w-full bg-blue-500" />
+            )}
           </div>
         ))}
       </div>
