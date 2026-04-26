@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
 import Feed from "./pages/Feed";
+import Profile from "./pages/Profile";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/feed" element={<Feed />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>
