@@ -1,3 +1,5 @@
+import { cn } from "../../lib/utils";
+
 const stats = [
   { label: "Notes", value: 15 },
   { label: "Followers", value: 120 },
@@ -59,7 +61,10 @@ export default function SidebarLeft() {
           {badges.map((badge, index) => (
             <div
               key={index}
-              className={`${badge.color} rounded-full px-2 py-0.5 text-xs font-medium text-white`}
+              className={cn(
+                "rounded-full px-2 py-0.5 text-xs font-medium text-white",
+                badge.color,
+              )}
             >
               {badge.label}
             </div>

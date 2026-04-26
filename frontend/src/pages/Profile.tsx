@@ -1,6 +1,6 @@
 import MainView from "../components/profile/MainView";
 import Sidebar from "../components/profile/Sidebar";
-import Topbar from "../components/home/Topbar";
+import Topbar from "../components/Topbar";
 
 export default function Home() {
   return (

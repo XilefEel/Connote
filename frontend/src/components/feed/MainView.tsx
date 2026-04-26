@@ -1,5 +1,8 @@
 import { Grid2X2, Menu, X } from "lucide-react";
 import NoteCard from "../NoteCard";
+import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { cn } from "../../lib/utils";
 
 const noteCards = [
   {
@@ -63,21 +66,43 @@ const filters = [
 ];
 
 export default function MainView() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
+
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-2">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
           <h1 className="text-xl font-semibold text-white">
-            results for "binary tree"
+            results for <span className="text-blue-400">"{query}"</span>
           </h1>
           <p className="text-xs text-gray-500">24 notes</p>
         </div>
 
         <div className="flex flex-row items-center text-gray-200 hover:text-gray-100">
-          <button className="cursor-pointer rounded-l bg-blue-500 p-2 transition-colors hover:bg-blue-400">
+          <button
+            onClick={() => setViewMode("list")}
+            className={cn(
+              "cursor-pointer rounded-l p-2 transition-colors",
+              viewMode === "list"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "bg-gray-800 hover:bg-gray-700",
+            )}
+          >
             <Menu size={16} />
           </button>
-          <button className="cursor-pointer rounded-r bg-gray-800 p-2 transition-colors hover:bg-gray-700">
+
+          <button
+            onClick={() => setViewMode("grid")}
+            className={cn(
+              "cursor-pointer rounded-r p-2 transition-colors",
+              viewMode === "grid"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "bg-gray-800 hover:bg-gray-700",
+            )}
+          >
             <Grid2X2 size={16} />
           </button>
         </div>
@@ -103,18 +128,14 @@ export default function MainView() {
         ))}
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div
+        className={cn(
+          "gap-3",
+          viewMode === "list" ? "flex flex-col" : "grid grid-cols-2",
+        )}
+      >
         {noteCards.map((card, index) => (
-          <NoteCard
-            key={index}
-            title={card.title}
-            description={card.description}
-            likes={card.likes}
-            comments={card.comments}
-            forks={card.forks}
-            contributors={card.contributors}
-            tags={card.tags}
-          />
+          <NoteCard key={index} {...card} />
         ))}
       </div>
     </div>

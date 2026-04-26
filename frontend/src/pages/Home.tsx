@@ -1,7 +1,7 @@
 import MainView from "../components/home/MainView";
 import SidebarLeft from "../components/home/SidebarLeft";
 import SidebarRight from "../components/home/SidebarRight";
-import Topbar from "../components/home/Topbar";
+import Topbar from "../components/Topbar";
 
 export default function Home() {
   return (

@@ -1,4 +1,5 @@
 import { Clock, Home, Settings, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const subjects = [
   { name: "Calculus", color: "bg-blue-500", count: 12 },
@@ -21,15 +22,21 @@ export default function SidebarLeft() {
           Home
         </div>
 
-        <div className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white">
+        <Link
+          to="/home?sort=popular"
+          className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white"
+        >
           <Star size={16} />
           Popular
-        </div>
+        </Link>
 
-        <div className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white">
+        <Link
+          to="/home?sort=recent"
+          className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white"
+        >
           <Clock size={16} />
           Recent
-        </div>
+        </Link>
       </div>
 
       <div className="flex w-full flex-col gap-1 text-sm">

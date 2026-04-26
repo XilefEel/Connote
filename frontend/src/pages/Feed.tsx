@@ -1,6 +1,6 @@
 import MainView from "../components/feed/MainView";
 import Sidebar from "../components/feed/Sidebar";
-import Topbar from "../components/home/Topbar";
+import Topbar from "../components/Topbar";
 
 export default function Feed() {
   return (
