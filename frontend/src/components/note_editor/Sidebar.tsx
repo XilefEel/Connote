@@ -12,7 +12,13 @@ const beforePublishing = [
   "subject selected",
 ];
 
-export default function Sidebar({ note }: { note: NewNote }) {
+export default function Sidebar({
+  mode,
+  note,
+}: {
+  mode: "create" | "edit";
+  note: NewNote;
+}) {
   const [visibility, setVisibility] = useState("public");
   const navigate = useNavigate();
 
@@ -93,7 +99,7 @@ export default function Sidebar({ note }: { note: NewNote }) {
         onClick={handlePublish}
         className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-500"
       >
-        Publish
+        {mode === "create" ? "Publish" : "Commit"}
       </button>
     </div>
   );

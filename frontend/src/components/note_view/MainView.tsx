@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ThumbsUp, MessageSquare, GitFork } from "lucide-react";
+import { ThumbsUp, MessageSquare, GitFork, Pencil } from "lucide-react";
 import CommentBlock from "./CommentBlock";
-import { getNoteById } from "../../lib/api/note";
+import { forkNoteById, getNoteById } from "../../lib/api/note";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
@@ -67,6 +67,7 @@ const comments = [
 export default function MainView() {
   const [note, setNote] = useState(dummyNote);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -74,25 +75,35 @@ export default function MainView() {
     editable: false,
   });
 
+  const handleEdit = () => {
+    navigate(`/note/${id}/edit`);
+  };
+
+  const handleFork = async () => {
+    const forkedNote = await forkNoteById(id, note.author);
+    navigate(`/note/${forkedNote.id}`);
+  };
+
   useEffect(() => {
     const fetchNote = async () => {
       const data = await getNoteById(id!);
       setNote(data);
-
-      editor?.commands.setContent(
-        typeof data.content === "string"
-          ? JSON.parse(data.content)
-          : data.content,
-      );
-
-      console.log("Fetched note content:", data.content);
+      editor.commands.setContent(JSON.parse(data.content));
     };
     fetchNote();
   }, [id, editor]);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
-      <h1 className="text-2xl font-bold text-gray-100">{note.title}</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="text-2xl font-bold text-gray-100">{note.title}</h1>
+        <button onClick={handleEdit}>
+          <Pencil
+            size={16}
+            className="text-gray-500 transition-colors hover:text-gray-200"
+          />
+        </button>
+      </div>
 
       <div className="flex flex-wrap items-center gap-2 text-xs">
         {note.tags.map((tag) => (
@@ -121,10 +132,13 @@ export default function MainView() {
           {note.comments} comments
         </p>
 
-        <p className="ml-auto flex items-center gap-2 rounded transition-colors hover:text-gray-200">
+        <button
+          onClick={handleFork}
+          className="ml-auto flex items-center gap-2 rounded transition-colors hover:text-gray-200"
+        >
           <GitFork size={12} />
           {note.forks} forks
-        </p>
+        </button>
       </div>
 
       <EditorContent

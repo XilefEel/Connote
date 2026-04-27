@@ -1,5 +1,5 @@
-import MainView from "../components/note/MainView";
-import Sidebar from "../components/note/Sidebar";
+import MainView from "../components/note_view/MainView";
+import Sidebar from "../components/note_view/Sidebar";
 import Topbar from "../components/Topbar";
 
 export default function NotePage() {

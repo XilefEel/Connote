@@ -12,11 +12,7 @@ const newNote: NewNote = {
   tags: [],
 };
 
-export default function NoteEditor({
-  mode,
-}: {
-  mode: "create" | "edit" | "fork";
-}) {
+export default function NoteEditor({ mode }: { mode: "create" | "edit" }) {
   const [note, setNote] = useState<NewNote>(newNote);
 
   return (
@@ -24,7 +20,7 @@ export default function NoteEditor({
       <Topbar />
       <div className="flex min-h-0 flex-1 items-stretch">
         <MainView mode={mode} note={note} setNote={setNote} />
-        <Sidebar note={note} />
+        <Sidebar mode={mode} note={note} />
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export default function MainView({
 }: {
   note: NewNote;
   setNote: (note: NewNote) => void;
-  mode: "create" | "edit" | "fork";
+  mode: "create" | "edit";
 }) {
   const { id } = useParams();
 
