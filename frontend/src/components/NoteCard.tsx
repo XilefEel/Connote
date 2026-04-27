@@ -1,30 +1,13 @@
 import { GitFork, MessageSquare, ThumbsUp } from "lucide-react";
 import { Link } from "react-router-dom";
+import type { Note } from "../lib/types/note";
 
-export default function NoteCard({
-  id,
-  title,
-  description,
-  likes,
-  comments,
-  forks,
-  contributors,
-  tags,
-}: {
-  id: number;
-  title: string;
-  description: string;
-  likes: number;
-  comments: number;
-  forks: number;
-  contributors: number;
-  tags: string[];
-}) {
+export default function NoteCard({ note }: { note: Note }) {
   return (
     <div className="flex min-h-40 w-full flex-col rounded-xl border border-gray-700 bg-gray-900 p-4">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row gap-2">
-          {tags.map((tag, index) => (
+          {note.tags.map((tag, index) => (
             <div
               key={index}
               className="flex items-center gap-2 rounded-full bg-blue-800 px-2 py-px transition-colors hover:text-gray-200"
@@ -38,33 +21,33 @@ export default function NoteCard({
       </div>
 
       <div className="mt-1 flex flex-col gap-1">
-        <Link to={`/note/${id}`}>
+        <Link to={`/note/${note.id}`}>
           <h2 className="text-base font-semibold text-gray-100 transition-colors hover:text-blue-200">
-            {title}
+            {note.title}
           </h2>
         </Link>
 
-        <p className="text-xs text-gray-400">{description}</p>
+        <p className="text-xs text-gray-400">{note.description}</p>
       </div>
 
       <div className="mt-auto flex flex-row gap-5 border-t border-gray-700 pt-2 text-xs text-gray-300">
         <div className="flex items-center gap-2 rounded transition-colors hover:text-gray-200">
           <ThumbsUp size={12} />
-          {likes} likes
+          {note.likes} likes
         </div>
 
         <div className="flex items-center gap-2 rounded transition-colors hover:text-gray-200">
           <MessageSquare size={12} />
-          {comments} comments
+          {note.comments} comments
         </div>
 
         <div className="flex items-center gap-2 rounded transition-colors hover:text-gray-200">
           <GitFork size={12} />
-          {forks} forks
+          {note.forks} forks
         </div>
 
         <div className="ml-auto flex items-center gap-2 rounded bg-blue-900 px-2 py-0.5 text-blue-100 transition-colors hover:text-gray-200">
-          v6.2 • {contributors} contributors
+          v6.2 • {note.contributors} contributors
         </div>
       </div>
     </div>

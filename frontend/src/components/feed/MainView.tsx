@@ -3,8 +3,9 @@ import NoteCard from "../NoteCard";
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "../../lib/utils";
+import type { Note } from "../../lib/types/note";
 
-const noteCards = [
+const noteCards: Note[] = [
   {
     id: 1,
     title: "Binary trees — traversal algorithms + interview problems",
@@ -15,6 +16,11 @@ const noteCards = [
     forks: 40,
     contributors: 4,
     tags: ["Computer Science", "Data Structures", "Binary Trees"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 2,
@@ -26,6 +32,11 @@ const noteCards = [
     forks: 25,
     contributors: 3,
     tags: ["Computer Science", "Data Structures", "Hash Tables"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 3,
@@ -37,6 +48,11 @@ const noteCards = [
     forks: 30,
     contributors: 4,
     tags: ["Computer Science", "Algorithms", "Graph Theory"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 4,
@@ -48,6 +64,11 @@ const noteCards = [
     forks: 35,
     contributors: 5,
     tags: ["Computer Science", "Algorithms", "Sorting"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 5,
@@ -59,6 +80,11 @@ const noteCards = [
     forks: 45,
     contributors: 6,
     tags: ["Computer Science", "Algorithms", "Dynamic Programming"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
 ];
 
@@ -139,8 +165,8 @@ export default function MainView() {
           viewMode === "list" ? "flex flex-col" : "grid grid-cols-2",
         )}
       >
-        {noteCards.map((card, index) => (
-          <NoteCard key={index} {...card} />
+        {noteCards.map((note, index) => (
+          <NoteCard key={index} note={note} />
         ))}
       </div>
     </div>

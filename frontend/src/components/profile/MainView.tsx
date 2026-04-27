@@ -1,19 +1,30 @@
 import { useState } from "react";
 import NoteCard from "../NoteCard";
 import { cn } from "../../lib/utils";
+import type { Note } from "../../lib/types/note";
 
-const noteCards = [
+const noteCards: Note[] = [
   {
+    id: 1,
     title: "Binary trees — traversal algorithms + interview problems",
     description:
       "In-order, pre-order, post-order with animated trace diagrams. 8 LeetCode-style problems with solutions.",
+    content: "",
+    author: "Alice",
+    version: "1.0",
     likes: 150,
     comments: 60,
     forks: 40,
     contributors: 4,
     tags: ["Computer Science", "Data Structures", "Binary Trees"],
+    createdAt: "2024-06-01T00:00:00Z",
+    updatedAt: "2024-06-01T00:00:00Z",
   },
   {
+    id: 2,
+    content: "",
+    author: "Alice",
+    version: "1.0",
     title: "Data structures — hash tables explained with code",
     description:
       "Hash functions, collision resolution strategies, and performance analysis. Implementations in Python and JavaScript.",
@@ -22,8 +33,14 @@ const noteCards = [
     forks: 25,
     contributors: 3,
     tags: ["Computer Science", "Data Structures", "Hash Tables"],
+    createdAt: "2024-06-01T00:00:00Z",
+    updatedAt: "2024-06-01T00:00:00Z",
   },
   {
+    id: 3,
+    content: "",
+    author: "Alice",
+    version: "1.0",
     title: "Graph algorithms — Dijkstra's and A* explained",
     description:
       "Step-by-step explanations of Dijkstra's and A* algorithms with visualizations. Includes code examples in Python.",
@@ -32,8 +49,14 @@ const noteCards = [
     forks: 30,
     contributors: 4,
     tags: ["Computer Science", "Algorithms", "Graph Theory"],
+    createdAt: "2024-06-01T00:00:00Z",
+    updatedAt: "2024-06-01T00:00:00Z",
   },
   {
+    id: 4,
+    content: "",
+    author: "Alice",
+    version: "1.0",
     title: "Sorting algorithms — quicksort, mergesort, and heapsort",
     description:
       "Detailed explanations of quicksort, mergesort, and heapsort with time complexity analysis. Code implementations included.",
@@ -42,8 +65,14 @@ const noteCards = [
     forks: 35,
     contributors: 5,
     tags: ["Computer Science", "Algorithms", "Sorting"],
+    createdAt: "2024-06-01T00:00:00Z",
+    updatedAt: "2024-06-01T00:00:00Z",
   },
   {
+    id: 5,
+    content: "",
+    author: "Alice",
+    version: "1.0",
     title: "Dynamic programming — top 10 interview problems",
     description:
       "A curated list of the top 10 dynamic programming problems commonly asked in interviews, with detailed solutions and explanations.",
@@ -52,6 +81,8 @@ const noteCards = [
     forks: 45,
     contributors: 6,
     tags: ["Computer Science", "Algorithms", "Dynamic Programming"],
+    createdAt: "2024-06-01T00:00:00Z",
+    updatedAt: "2024-06-01T00:00:00Z",
   },
 ];
 
@@ -93,8 +124,8 @@ export default function MainView() {
       </div>
 
       <div className="flex flex-col gap-3">
-        {noteCards.map((card, index) => (
-          <NoteCard key={index} {...card} />
+        {noteCards.map((note, index) => (
+          <NoteCard key={index} note={note} />
         ))}
       </div>
     </div>

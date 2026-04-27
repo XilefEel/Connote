@@ -2,20 +2,22 @@ import { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
+import type { Note } from "../../lib/types/note";
 
-const dummyNote = {
+const dummyNote: Note = {
   id: 1,
   title: "New Note",
   description: "",
+  content: "",
   author: "",
-  createdAt: "",
   version: "1.0",
   likes: 0,
   comments: 0,
   forks: 0,
   contributors: 0,
   tags: [""],
-  content: "",
+  createdAt: "2024-06-01T00:00:00Z",
+  updatedAt: "2024-06-01T00:00:00Z",
 };
 
 export default function MainView() {

@@ -11,6 +11,11 @@ const noteCards = [
     forks: 30,
     contributors: 5,
     tags: ["Mathematics", "Calculus", "Integration"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 11,
@@ -22,6 +27,11 @@ const noteCards = [
     forks: 15,
     contributors: 3,
     tags: ["Chemistry", "Organic Chemistry", "Reaction Mechanisms"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 12,
@@ -33,6 +43,11 @@ const noteCards = [
     forks: 40,
     contributors: 4,
     tags: ["Computer Science", "Data Structures", "Binary Trees"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 13,
@@ -44,6 +59,11 @@ const noteCards = [
     forks: 10,
     contributors: 2,
     tags: ["Physics", "Quantum Mechanics", "Schrödinger Equation"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
   {
     id: 14,
@@ -55,6 +75,11 @@ const noteCards = [
     forks: 25,
     contributors: 3,
     tags: ["Computer Science", "Data Structures", "Hash Tables"],
+    content: "",
+    author: "Alice",
+    version: "1.0",
+    createdAt: "2024-06-01T12:00:00Z",
+    updatedAt: "2024-06-01T12:00:00Z",
   },
 ];
 
@@ -86,8 +111,8 @@ export default function MainView() {
       </div>
 
       <div className="flex flex-col gap-3">
-        {noteCards.map((card, index) => (
-          <NoteCard key={index} {...card} />
+        {noteCards.map((note, index) => (
+          <NoteCard key={index} note={note} />
         ))}
       </div>
     </div>
