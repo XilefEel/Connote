@@ -31,6 +31,7 @@ export const createNote = async (note: NewNote): Promise<Note> => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(note),
     });
+
     if (!response.ok) throw new Error("Failed to create note");
     return response.json();
   } catch (error) {
@@ -49,10 +50,30 @@ export const forkNoteById = async (
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ author }),
     });
+
     if (!response.ok) throw new Error("Failed to fork note");
     return response.json();
   } catch (error) {
     console.error("Error forking note:", error);
+    throw error;
+  }
+};
+
+export const updateNote = async (
+  id: string,
+  note: Partial<NewNote> & { changeSummary?: string },
+): Promise<Note> => {
+  try {
+    const response = await fetch(`${BASE_URL}/notes/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(note),
+    });
+
+    if (!response.ok) throw new Error("Failed to update note");
+    return response.json();
+  } catch (error) {
+    console.error("Error updating note:", error);
     throw error;
   }
 };

@@ -146,4 +146,49 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         author: t.String(),
       }),
     },
+  )
+  // src/routes/notes.ts
+  .patch(
+    "/:id",
+    async ({ params, body, set }) => {
+      const existing = db
+        .select()
+        .from(notesTable)
+        .where(eq(notesTable.id, Number(params.id)))
+        .get();
+
+      if (!existing) {
+        set.status = 404;
+        return { message: "Note not found" };
+      }
+
+      const [major, minor] = existing.version.split(".").map(Number);
+      const newVersion = `${major}.${minor + 1}`;
+
+      const { tags: tagNames, ...noteData } = body;
+
+      const updated = db
+        .update(notesTable)
+        .set({
+          ...noteData,
+          version: newVersion,
+          updatedAt: new Date().toISOString(),
+        })
+        .where(eq(notesTable.id, Number(params.id)))
+        .returning()
+        .get();
+
+      if (tagNames) await syncTags(updated.id, tagNames);
+
+      return { ...updated, tags: await getNoteTags(updated.id) };
+    },
+    {
+      body: t.Object({
+        title: t.Optional(t.String()),
+        description: t.Optional(t.String()),
+        content: t.Optional(t.String()),
+        tags: t.Optional(t.Array(t.String())),
+        changeSummary: t.Optional(t.String()),
+      }),
+    },
   );

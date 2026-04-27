@@ -2,8 +2,8 @@ import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { CircleDot, Dot } from "lucide-react";
 import type { NewNote } from "../../lib/types/note";
-import { createNote } from "../../lib/api/note";
-import { useNavigate } from "react-router-dom";
+import { createNote, updateNote } from "../../lib/api/note";
+import { useNavigate, useParams } from "react-router-dom";
 
 const beforePublishing = [
   "title filled in",
@@ -19,11 +19,19 @@ export default function Sidebar({
   mode: "create" | "edit";
   note: NewNote;
 }) {
+  const [changeSummary, setChangeSummary] = useState("");
   const [visibility, setVisibility] = useState("public");
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handlePublish = () => {
     createNote(note);
+    navigate("/profile");
+  };
+
+  const handleCommit = () => {
+    if (!id) return;
+    updateNote(id, { ...note, changeSummary });
     navigate("/profile");
   };
 
@@ -80,23 +88,34 @@ export default function Sidebar({
         </div>
       </div>
 
-      <div className="border-t border-t-gray-800 pt-4">
-        <h3 className="mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
-          Before publishing
-        </h3>
+      {mode === "create" && (
+        <div className="border-t border-t-gray-800 pt-4">
+          <h3 className="mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+            Before publishing
+          </h3>
 
-        <div className="flex flex-col gap-2">
-          {beforePublishing.map((item) => (
-            <div key={item} className="flex items-center gap-2 text-xs">
-              <Dot className="size-3 text-gray-500" />
-              <span className="tracking-wide text-gray-400">{item}</span>
-            </div>
-          ))}
+          <div className="flex flex-col gap-2">
+            {beforePublishing.map((item) => (
+              <div key={item} className="flex items-center gap-2 text-xs">
+                <Dot className="size-3 text-gray-500" />
+                <span className="tracking-wide text-gray-400">{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {mode === "edit" && (
+        <textarea
+          className="w-full rounded bg-gray-900 px-3 py-1 text-xs text-gray-100 outline-none"
+          placeholder="commit message"
+          value={changeSummary}
+          onChange={(e) => setChangeSummary(e.target.value)}
+        />
+      )}
 
       <button
-        onClick={handlePublish}
+        onClick={mode === "create" ? handlePublish : handleCommit}
         className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-500"
       >
         {mode === "create" ? "Publish" : "Commit"}
