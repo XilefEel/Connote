@@ -1,18 +1,24 @@
 export type NewNote = {
   title: string;
   description: string;
+  content: string;
+  author: string;
+  tags: string[];
+};
+
+export type Note = {
+  id: number;
+  title: string;
+  description: string;
+  content: string;
   author: string;
   version: string;
-  content: string;
   likes: number;
   comments: number;
   forks: number;
   contributors: number;
   tags: string[];
-};
-
-export type Note = NewNote & {
-  id: number;
+  forkedFrom?: number | null;
   createdAt: string;
   updatedAt: string;
 };

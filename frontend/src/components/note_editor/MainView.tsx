@@ -1,44 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
-import type { Note } from "../../lib/types/note";
+import type { NewNote } from "../../lib/types/note";
 import { useParams } from "react-router-dom";
-
-const newNote: Note = {
-  id: 1,
-  title: "New Note",
-  description: "",
-  content: "",
-  author: "",
-  version: "1.0",
-  likes: 0,
-  comments: 0,
-  forks: 0,
-  contributors: 0,
-  tags: [],
-  createdAt: "2024-06-01T00:00:00Z",
-  updatedAt: "2024-06-01T00:00:00Z",
-};
+import { getNoteById } from "../../lib/api/note";
 
 export default function MainView({
+  note,
+  setNote,
   mode,
 }: {
+  note: NewNote;
+  setNote: (note: NewNote) => void;
   mode: "create" | "edit" | "fork";
 }) {
   const { id } = useParams();
-  const [note, setNote] = useState(newNote);
 
   const editor = useEditor({
     extensions: [StarterKit],
     content: note.content,
+    onUpdate: ({ editor }) => {
+      setNote({ ...note, content: JSON.stringify(editor.getJSON()) });
+    },
   });
 
   useEffect(() => {
-    if (mode === "edit" || mode === "fork") {
-      //TODO: fetch note data from backend using note id and set it to state
+    if (mode !== "create" && id) {
+      const fetchNote = async () => {
+        const data = await getNoteById(id);
+        setNote(data);
+        editor?.commands.setContent(JSON.parse(data.content));
+      };
+
+      fetchNote();
     }
-  }, [mode, editor]);
+  }, [mode, editor, id, setNote]);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">

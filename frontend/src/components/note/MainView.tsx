@@ -1,61 +1,25 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ThumbsUp, MessageSquare, GitFork } from "lucide-react";
 import CommentBlock from "./CommentBlock";
+import { getNoteById } from "../../lib/api/note";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 const dummyNote = {
   id: 1,
-  title: "Binary trees — traversal algorithms + interview problems",
-  description:
-    "In-order, pre-order, post-order with animated trace diagrams. 8 LeetCode-style problems with solutions.",
+  title: "",
+  description: "",
   author: "John Doe",
-  createdAt: "2h ago",
-  version: "6.2",
-  likes: 150,
-  comments: 60,
-  forks: 40,
-  contributors: 4,
-  tags: ["Computer Science", "Data Structures", "Binary Trees"],
+  createdAt: "",
+  version: "v1.0",
+  likes: 0,
+  comments: 0,
+  forks: 0,
+  contributors: 0,
+  tags: [""],
   content: `
-  # Binary Trees — Traversal Algorithms
-
-  ## What is a Binary Tree?
-  A binary tree is a tree data structure where each node has at most two children...
-
-  ## Traversal Algorithms
-  ### In-order (Left, Root, Right)
-  \`\`\`python
-  def inorder(root):
-      if root:
-          inorder(root.left)
-          print(root.val)
-          inorder(root.right)
-  \`\`\`
-
-  ### Pre-order (Root, Left, Right)
-  \`\`\`python
-  def preorder(root):
-      if root:
-          print(root.val)
-          preorder(root.left)
-          preorder(root.right)
-  \`\`\`
-
-  ### Post-order (Left, Right, Root)
-  \`\`\`python
-  def postorder(root):
-      if root:
-          postorder(root.left)
-          postorder(root.right)
-          print(root.val)
-  \`\`\`
-
-  ## Time Complexity
-  | Traversal Type | Time Complexity |
-  |----------------|-----------------|
-  | In-order       | O(n)            |
-  | Pre-order      | O(n)            |
-  | Post-order     | O(n)            |
+  # Binary Trees — Traversal Algorithms + Interview Problems
     `,
 };
 
@@ -101,18 +65,37 @@ const comments = [
 ];
 
 export default function MainView() {
+  const [note, setNote] = useState(dummyNote);
   const { id } = useParams();
 
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: note.content,
+    editable: false,
+  });
+
   useEffect(() => {
-    // TODO: implement API call to fetch note data based on id
-  }, [id]);
+    const fetchNote = async () => {
+      const data = await getNoteById(id!);
+      setNote(data);
+
+      editor?.commands.setContent(
+        typeof data.content === "string"
+          ? JSON.parse(data.content)
+          : data.content,
+      );
+
+      console.log("Fetched note content:", data.content);
+    };
+    fetchNote();
+  }, [id, editor]);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
-      <h1 className="text-2xl font-bold text-gray-100">{dummyNote.title}</h1>
+      <h1 className="text-2xl font-bold text-gray-100">{note.title}</h1>
 
       <div className="flex flex-wrap items-center gap-2 text-xs">
-        {dummyNote.tags.map((tag) => (
+        {note.tags.map((tag) => (
           <span
             key={tag}
             className="rounded-full bg-blue-500 px-3 py-0.5 text-gray-200"
@@ -122,35 +105,36 @@ export default function MainView() {
         ))}
 
         <span className="text-gray-600">by</span>
-        <span className="font-medium text-gray-300">{dummyNote.author}</span>
+        <span className="font-medium text-gray-300">{note.author}</span>
         <span className="text-gray-600">·</span>
-        <span className="text-gray-500">{dummyNote.createdAt}</span>
+        <span className="text-gray-500">{note.createdAt}</span>
       </div>
 
       <div className="flex items-center gap-5 border-t border-t-gray-800 px-5 pt-2 text-sm text-gray-500">
         <p className="flex items-center gap-2 rounded transition-colors hover:text-gray-200">
           <ThumbsUp size={12} />
-          {dummyNote.likes} likes
+          {note.likes} likes
         </p>
 
         <p className="flex items-center gap-2 rounded transition-colors hover:text-gray-200">
           <MessageSquare size={12} />
-          {dummyNote.comments} comments
+          {note.comments} comments
         </p>
 
         <p className="ml-auto flex items-center gap-2 rounded transition-colors hover:text-gray-200">
           <GitFork size={12} />
-          {dummyNote.forks} forks
+          {note.forks} forks
         </p>
       </div>
 
-      <pre className="border-t border-t-gray-800 pt-5 font-mono text-sm whitespace-pre-wrap text-gray-200">
-        {dummyNote.content}
-      </pre>
+      <EditorContent
+        editor={editor}
+        className="prose prose-invert max-w-none flex-1 rounded bg-gray-900 p-4 text-gray-100 [&_.ProseMirror]:min-h-100 [&_.ProseMirror]:outline-none"
+      />
 
       <div className="flex flex-col gap-3 border-t border-t-gray-800 pt-5">
         <h2 className="text-base font-semibold text-gray-100">
-          {dummyNote.comments} Comments
+          {note.comments} Comments
         </h2>
 
         <div className="flex min-h-40 flex-col items-start rounded-xl border border-gray-800 bg-gray-900 p-3">

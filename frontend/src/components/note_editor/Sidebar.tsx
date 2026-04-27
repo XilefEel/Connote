@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { CircleDot, Dot } from "lucide-react";
+import type { NewNote } from "../../lib/types/note";
+import { createNote } from "../../lib/api/note";
+import { useNavigate } from "react-router-dom";
 
 const beforePublishing = [
   "title filled in",
@@ -9,8 +12,14 @@ const beforePublishing = [
   "subject selected",
 ];
 
-export default function SidebarLeft() {
+export default function Sidebar({ note }: { note: NewNote }) {
   const [visibility, setVisibility] = useState("public");
+  const navigate = useNavigate();
+
+  const handlePublish = () => {
+    createNote(note);
+    navigate("/profile");
+  };
 
   return (
     <div className="flex h-full w-64 flex-col gap-4 border-l border-l-gray-700 p-3 px-5">
@@ -35,6 +44,7 @@ export default function SidebarLeft() {
                 visibility === "public" ? "text-blue-500" : "text-gray-500",
               )}
             />
+
             <div className="flex flex-col items-start">
               <span className="text-gray-100">public</span>
               <span className="text-gray-500">anyone can find and fork</span>
@@ -79,7 +89,10 @@ export default function SidebarLeft() {
         </div>
       </div>
 
-      <button className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-500">
+      <button
+        onClick={handlePublish}
+        className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-500"
+      >
         Publish
       </button>
     </div>
