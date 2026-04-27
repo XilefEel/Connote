@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import NotePage from "./pages/NotePage";
-import CreateNotePage from "./pages/CreateNotePage";
+import NoteEditor from "./pages/NoteEditor";
 
 export default function App() {
   return (
@@ -20,7 +20,9 @@ export default function App() {
         <Route path="/feed" element={<Feed />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/note/:id" element={<NotePage />} />
-        <Route path="/note/new" element={<CreateNotePage />} />
+        <Route path="/note/new" element={<NoteEditor mode="create" />} />
+        <Route path="/note/:id/edit" element={<NoteEditor mode="edit" />} />
+        <Route path="/note:id/fork" element={<NoteEditor mode="fork" />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>

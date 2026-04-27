@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
 import type { Note } from "../../lib/types/note";
+import { useParams } from "react-router-dom";
 
-const dummyNote: Note = {
+const newNote: Note = {
   id: 1,
   title: "New Note",
   description: "",
@@ -15,18 +16,29 @@ const dummyNote: Note = {
   comments: 0,
   forks: 0,
   contributors: 0,
-  tags: [""],
+  tags: [],
   createdAt: "2024-06-01T00:00:00Z",
   updatedAt: "2024-06-01T00:00:00Z",
 };
 
-export default function MainView() {
-  const [note, setNote] = useState(dummyNote);
+export default function MainView({
+  mode,
+}: {
+  mode: "create" | "edit" | "fork";
+}) {
+  const { id } = useParams();
+  const [note, setNote] = useState(newNote);
 
   const editor = useEditor({
     extensions: [StarterKit],
     content: note.content,
   });
+
+  useEffect(() => {
+    if (mode === "edit" || mode === "fork") {
+      //TODO: fetch note data from backend using note id and set it to state
+    }
+  }, [mode, editor]);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
