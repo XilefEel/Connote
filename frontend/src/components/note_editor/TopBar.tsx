@@ -9,10 +9,6 @@ export default function Topbar() {
 
       <div className="flex shrink-0 items-center gap-3">
         <button className="cursor-pointer rounded-lg border border-gray-800 px-4 py-1 text-xs text-gray-400 transition-colors hover:border-gray-600 hover:text-gray-200">
-          preview
-        </button>
-
-        <button className="cursor-pointer rounded-lg border border-gray-800 px-4 py-1 text-xs text-gray-400 transition-colors hover:border-gray-600 hover:text-gray-200">
           save draft
         </button>
 

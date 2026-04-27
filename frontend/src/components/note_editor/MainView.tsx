@@ -63,7 +63,7 @@ export default function MainView({
         <input
           className="rounded bg-gray-900 px-3 py-1 text-gray-100 outline-none"
           placeholder="Add tags (comma separated)..."
-          value={note.tags.join(", ")}
+          value={note.tags}
           onChange={(e) =>
             setNote({
               ...note,

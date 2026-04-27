@@ -46,6 +46,18 @@ export default function SidebarLeft({ note }: { note: Note }) {
     <div className="flex h-full w-64 flex-col gap-4 border-l border-l-gray-700 p-3 px-5">
       <div>
         <h3 className="mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+          Description
+        </h3>
+
+        <p className="text-xs text-gray-300">
+          {note.description
+            ? note.description
+            : "No description provided for this note."}
+        </p>
+      </div>
+
+      <div className="border-t border-t-gray-800 pt-4">
+        <h3 className="mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
           Contributors
         </h3>
 
@@ -92,7 +104,7 @@ export default function SidebarLeft({ note }: { note: Note }) {
                     index === 0 && "text-blue-400",
                   )}
                 >
-                  {version.version}
+                  v{version.version}
                 </span>
 
                 <span className="text-xs tracking-wide text-gray-500">
