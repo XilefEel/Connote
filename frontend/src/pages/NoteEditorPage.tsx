@@ -8,8 +8,9 @@ const newNote: NewNote = {
   title: "New Note",
   description: "",
   content: "",
-  author: "",
+  author: "John Doe",
   tags: [],
+  visibility: "public",
 };
 
 export default function NoteEditor({ mode }: { mode: "create" | "edit" }) {
@@ -20,7 +21,7 @@ export default function NoteEditor({ mode }: { mode: "create" | "edit" }) {
       <Topbar />
       <div className="flex min-h-0 flex-1 items-stretch">
         <MainView mode={mode} note={note} setNote={setNote} />
-        <Sidebar mode={mode} note={note} />
+        <Sidebar mode={mode} note={note} setNote={setNote} />
       </div>
     </div>
   );

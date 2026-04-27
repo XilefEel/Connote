@@ -13,6 +13,7 @@ export const notesTable = sqliteTable("notes", {
   content: text("content").notNull().default(""),
   author: text("author").notNull(),
   version: text("version").notNull().default("1.0"),
+  visibility: text("visibility").notNull().default("public"),
   likes: integer("likes").notNull().default(0),
   comments: integer("comments").notNull().default(0),
   forks: integer("forks").notNull().default(0),
@@ -41,3 +42,15 @@ export const noteTagsTable = sqliteTable(
   },
   (table) => [uniqueIndex("note_tags_unique").on(table.noteId, table.tagId)],
 );
+
+// note_versions table
+export const noteVersionsTable = sqliteTable("note_versions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  noteId: integer("note_id")
+    .notNull()
+    .references(() => notesTable.id),
+  version: text("version").notNull(),
+  changeSummary: text("change_summary").notNull().default(""),
+  author: text("author").notNull(),
+  createdAt: text("created_at").notNull().default(new Date().toISOString()),
+});

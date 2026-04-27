@@ -15,14 +15,21 @@ const beforePublishing = [
 export default function Sidebar({
   mode,
   note,
+  setNote,
 }: {
   mode: "create" | "edit";
   note: NewNote;
+  setNote: (note: NewNote) => void;
 }) {
   const [changeSummary, setChangeSummary] = useState("");
   const [visibility, setVisibility] = useState("public");
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const handleVisibilityChange = (newVisibility: string) => {
+    setVisibility(newVisibility);
+    setNote({ ...note, visibility: newVisibility as "public" | "private" });
+  };
 
   const handlePublish = () => {
     createNote(note);
@@ -44,7 +51,7 @@ export default function Sidebar({
 
         <div className="flex flex-col gap-2">
           <button
-            onClick={() => setVisibility("public")}
+            onClick={() => handleVisibilityChange("public")}
             className={cn(
               "flex cursor-pointer flex-row items-center gap-2 rounded-lg px-3 py-2 text-xs transition-colors",
               visibility === "public"
@@ -66,7 +73,7 @@ export default function Sidebar({
           </button>
 
           <button
-            onClick={() => setVisibility("private")}
+            onClick={() => handleVisibilityChange("private")}
             className={cn(
               "flex cursor-pointer flex-row items-center gap-2 rounded-lg px-3 py-1.5 text-xs transition-colors",
               visibility === "private"

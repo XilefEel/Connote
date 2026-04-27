@@ -1,19 +1,14 @@
 import { Link } from "react-router-dom";
 import { cn } from "../../lib/utils";
+import { type NoteVersion, type Note } from "../../lib/types/note";
+import { useEffect, useState } from "react";
+import { getNoteVersionsById } from "../../lib/api/note";
 
 const contributors = [
   { pfp: "AL", username: "Alice", edits: 4 },
   { pfp: "BO", username: "Bob", edits: 1 },
   { pfp: "CH", username: "Charlie", edits: 2 },
   { pfp: "DA", username: "David", edits: 1 },
-];
-
-const versionHistory = [
-  { version: "v2.0", author: "Charlie", date: "2hr" },
-  { version: "v1.3", author: "Alice", date: "3d" },
-  { version: "v1.2", author: "David", date: "1w" },
-  { version: "v1.1", author: "Bob", date: "1w" },
-  { version: "v1.0", author: "Alice", date: "2w" },
 ];
 
 const notableForks = [
@@ -33,7 +28,20 @@ const notableForks = [
   },
 ];
 
-export default function SidebarLeft() {
+export default function SidebarLeft({ note }: { note: Note }) {
+  const [versionHistory, setVersionHistory] = useState<NoteVersion[]>(
+    [] as NoteVersion[],
+  );
+
+  useEffect(() => {
+    const fetchNote = async () => {
+      const data = await getNoteVersionsById(String(note.id));
+      setVersionHistory(data.reverse());
+    };
+
+    fetchNote();
+  }, [note.id]);
+
   return (
     <div className="flex h-full w-64 flex-col gap-4 border-l border-l-gray-700 p-3 px-5">
       <div>
@@ -88,7 +96,8 @@ export default function SidebarLeft() {
                 </span>
 
                 <span className="text-xs tracking-wide text-gray-500">
-                  {version.author} • {version.date} ago
+                  {version.author} •{" "}
+                  {new Date(version.createdAt).toLocaleDateString()}
                 </span>
               </div>
             </div>
@@ -102,7 +111,9 @@ export default function SidebarLeft() {
         </h3>
 
         <p className="text-xs font-semibold text-gray-600">
-          this is an original note
+          {note.forkedFrom
+            ? `This note is a fork of id:${note.forkedFrom}.`
+            : "this is an original note"}
         </p>
       </div>
 

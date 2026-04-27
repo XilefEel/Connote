@@ -1,10 +1,15 @@
 import { Elysia, t } from "elysia";
 import { db } from "../db";
-import { notesTable, tagsTable, noteTagsTable } from "../db/schema";
+import {
+  notesTable,
+  tagsTable,
+  noteTagsTable,
+  noteVersionsTable,
+} from "../db/schema";
 import { eq } from "drizzle-orm";
 
 // get all tags for a note
-async function getNoteTags(noteId: number) {
+const getNoteTags = async (noteId: number) => {
   const result = await db
     .select({ name: tagsTable.name })
     .from(tagsTable)
@@ -12,11 +17,11 @@ async function getNoteTags(noteId: number) {
     .where(eq(noteTagsTable.noteId, noteId));
 
   return result.map((t) => t.name);
-}
+};
 
 // update tags for a note
 // delete existing tags and reinsert it
-async function syncTags(noteId: number, tagNames: string[]) {
+const syncTags = async (noteId: number, tagNames: string[]) => {
   await db.delete(noteTagsTable).where(eq(noteTagsTable.noteId, noteId));
 
   for (const name of tagNames) {
@@ -32,7 +37,23 @@ async function syncTags(noteId: number, tagNames: string[]) {
 
     await db.insert(noteTagsTable).values({ noteId, tagId: tag.id });
   }
-}
+};
+
+// create a new version entry for a note
+const createVersion = async (
+  noteId: number,
+  version: string,
+  author: string,
+  changeSummary: string,
+) => {
+  await db.insert(noteVersionsTable).values({
+    noteId,
+    version,
+    author,
+    changeSummary,
+    createdAt: new Date().toISOString(),
+  });
+};
 
 export const notesRoutes = new Elysia({ prefix: "/notes" })
   // get all notes
@@ -69,6 +90,8 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
     async ({ body }) => {
       const { tags: tagNames, ...noteData } = body;
 
+      console.log("inserting note:", noteData);
+
       const note = db
         .insert(notesTable)
         .values({
@@ -79,7 +102,16 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         .returning()
         .get();
 
+      console.log("note created:", note);
+
       await syncTags(note.id, tagNames);
+
+      await createVersion(
+        note.id,
+        note.version,
+        note.author,
+        "Initial version",
+      );
 
       return { ...note, tags: await getNoteTags(note.id) };
     },
@@ -90,6 +122,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         content: t.String(),
         author: t.String(),
         tags: t.Array(t.String()),
+        visibility: t.Union([t.Literal("public"), t.Literal("private")]),
       }),
     },
   )
@@ -133,6 +166,13 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
       const originalTags = await getNoteTags(original.id);
       await syncTags(forked.id, originalTags);
 
+      await createVersion(
+        forked.id,
+        forked.version,
+        forked.author,
+        "forked note",
+      );
+
       // increment fork count on original note
       await db
         .update(notesTable)
@@ -147,7 +187,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
       }),
     },
   )
-  // src/routes/notes.ts
+
   .patch(
     "/:id",
     async ({ params, body, set }) => {
@@ -180,6 +220,13 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
 
       if (tagNames) await syncTags(updated.id, tagNames);
 
+      await createVersion(
+        updated.id,
+        updated.version,
+        updated.author,
+        body.changeSummary || "Updated note",
+      );
+
       return { ...updated, tags: await getNoteTags(updated.id) };
     },
     {
@@ -191,4 +238,13 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         changeSummary: t.Optional(t.String()),
       }),
     },
-  );
+  )
+
+  .get("/:id/versions", async ({ params }) => {
+    const versions = await db
+      .select()
+      .from(noteVersionsTable)
+      .where(eq(noteVersionsTable.noteId, Number(params.id)));
+
+    return { versions };
+  });

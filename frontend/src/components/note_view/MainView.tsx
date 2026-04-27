@@ -1,27 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { ThumbsUp, MessageSquare, GitFork, Pencil } from "lucide-react";
 import CommentBlock from "./CommentBlock";
-import { forkNoteById, getNoteById } from "../../lib/api/note";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-
-const dummyNote = {
-  id: 1,
-  title: "",
-  description: "",
-  author: "John Doe",
-  createdAt: "",
-  version: "v1.0",
-  likes: 0,
-  comments: 0,
-  forks: 0,
-  contributors: 0,
-  tags: [""],
-  content: `
-  # Binary Trees — Traversal Algorithms + Interview Problems
-    `,
-};
+import { forkNoteById } from "../../lib/api/note";
+import { Editor, EditorContent } from "@tiptap/react";
+import type { Note } from "../../lib/types/note";
 
 const comments = [
   {
@@ -64,16 +46,15 @@ const comments = [
   },
 ];
 
-export default function MainView() {
-  const [note, setNote] = useState(dummyNote);
+export default function MainView({
+  note,
+  editor,
+}: {
+  note: Note;
+  editor: Editor;
+}) {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: note.content,
-    editable: false,
-  });
 
   const handleEdit = () => {
     navigate(`/note/${id}/edit`);
@@ -83,15 +64,6 @@ export default function MainView() {
     const forkedNote = await forkNoteById(id, note.author);
     navigate(`/note/${forkedNote.id}`);
   };
-
-  useEffect(() => {
-    const fetchNote = async () => {
-      const data = await getNoteById(id!);
-      setNote(data);
-      editor.commands.setContent(JSON.parse(data.content));
-    };
-    fetchNote();
-  }, [id, editor]);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
