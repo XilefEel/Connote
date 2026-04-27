@@ -69,10 +69,11 @@ export default function MainView({
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
       <div className="flex items-center gap-3">
         <h1 className="text-2xl font-bold text-gray-100">{note.title}</h1>
+
         <button onClick={handleEdit}>
           <Pencil
-            size={16}
-            className="text-gray-500 transition-colors hover:text-gray-200"
+            size={20}
+            className="cursor-pointer text-gray-500 transition-colors hover:text-gray-200"
           />
         </button>
       </div>
@@ -81,7 +82,7 @@ export default function MainView({
         {note.tags.map((tag) => (
           <span
             key={tag}
-            className="rounded-full bg-blue-500 px-3 py-0.5 text-gray-200"
+            className="rounded-full bg-blue-500 px-3 py-0.5 text-blue-50"
           >
             {tag}
           </span>

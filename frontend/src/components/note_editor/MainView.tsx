@@ -5,6 +5,7 @@ import Toolbar from "./Toolbar";
 import type { NewNote } from "../../lib/types/note";
 import { useParams } from "react-router-dom";
 import { getNoteById } from "../../lib/api/note";
+import { XIcon } from "lucide-react";
 
 export default function MainView({
   note,
@@ -24,6 +25,22 @@ export default function MainView({
       setNote({ ...note, content: JSON.stringify(editor.getJSON()) });
     },
   });
+
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const value = e.currentTarget.value.trim();
+      if (value && !note.tags.includes(value)) {
+        setNote({ ...note, tags: [...note.tags, value] });
+      }
+
+      e.currentTarget.value = "";
+      e.preventDefault();
+    }
+  };
+
+  const removeTag = (tag: string) => {
+    setNote({ ...note, tags: note.tags.filter((t) => t !== tag) });
+  };
 
   useEffect(() => {
     if (mode !== "create" && id) {
@@ -60,17 +77,27 @@ export default function MainView({
           <option value="Literature">Literature</option>
         </select>
 
-        <input
-          className="rounded bg-gray-900 px-3 py-1 text-gray-100 outline-none"
-          placeholder="Add tags (comma separated)..."
-          value={note.tags}
-          onChange={(e) =>
-            setNote({
-              ...note,
-              tags: e.target.value.split(",").map((tag) => tag.trim()),
-            })
-          }
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          {note.tags.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center gap-1 rounded-full bg-blue-500 px-3 py-0.5 text-xs text-blue-50"
+            >
+              {tag}
+              <XIcon
+                size={12}
+                onClick={() => removeTag(tag)}
+                className="cursor-pointer text-blue-200 transition-colors hover:text-blue-50"
+              />
+            </span>
+          ))}
+
+          <input
+            className="rounded border border-gray-800 px-3 py-1 text-xs text-gray-100 outline-none"
+            placeholder="Add tag..."
+            onKeyDown={handleAddTag}
+          />
+        </div>
       </div>
 
       <Toolbar editor={editor} />

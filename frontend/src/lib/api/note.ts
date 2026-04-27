@@ -34,12 +34,8 @@ export const createNote = async (note: NewNote): Promise<Note> => {
       body: JSON.stringify(note),
     });
 
-    // add this
-    const data = await response.json();
-    console.log("server response:", data);
-
     if (!response.ok) throw new Error("Failed to create note");
-    return data;
+    return response.json();
   } catch (error) {
     console.error("Error creating note:", error);
     throw error;

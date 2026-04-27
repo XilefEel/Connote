@@ -20,6 +20,7 @@ export default function Topbar() {
       <Link to="/home" className="shrink-0 text-xl font-bold text-white">
         con<span className="text-blue-500">note</span>
       </Link>
+
       <div className="relative w-1/2">
         <input
           placeholder="Cari catatan, mata kuliah..."

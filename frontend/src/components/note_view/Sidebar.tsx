@@ -43,7 +43,7 @@ export default function SidebarLeft({ note }: { note: Note }) {
   }, [note.id]);
 
   return (
-    <div className="flex h-full w-64 flex-col gap-4 border-l border-l-gray-700 p-3 px-5">
+    <div className="flex h-full w-64 flex-col gap-4 overflow-y-auto border-l border-l-gray-700 p-3 px-5">
       <div>
         <h3 className="mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
           Description
@@ -64,7 +64,7 @@ export default function SidebarLeft({ note }: { note: Note }) {
         <div className="flex flex-col gap-2">
           {contributors.map((c, index) => (
             <div key={index} className="flex items-center gap-3 rounded px-3">
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-700 text-xs font-semibold text-gray-300">
+              <div className="flex size-6 items-center justify-center rounded-full bg-blue-500 text-xs font-semibold text-white">
                 {c.pfp}
               </div>
 
@@ -92,24 +92,28 @@ export default function SidebarLeft({ note }: { note: Note }) {
                 className={cn(
                   "flex size-4 items-center justify-center rounded-full text-xs font-semibold text-gray-300",
                   index === 0
-                    ? "border-2 border-blue-500 bg-blue-800"
+                    ? "border-2 border-blue-400 bg-blue-700"
                     : "bg-gray-700",
                 )}
               />
 
-              <div className="flex flex-col rounded">
+              <div className="flex flex-col rounded tracking-wide">
                 <span
                   className={cn(
                     "text-sm font-medium text-gray-300",
-                    index === 0 && "text-blue-400",
+                    index === 0 && "font-semibold text-blue-400",
                   )}
                 >
-                  v{version.version}
+                  v{version.version} {index === 0 && "- current"}
                 </span>
 
-                <span className="text-xs tracking-wide text-gray-500">
+                <span className="text-xs text-gray-500">
                   {version.author} •{" "}
                   {new Date(version.createdAt).toLocaleDateString()}
+                </span>
+
+                <span className="truncate text-xs text-gray-500">
+                  {version.changeSummary}
                 </span>
               </div>
             </div>
