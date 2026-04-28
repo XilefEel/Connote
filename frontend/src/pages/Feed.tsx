@@ -8,24 +8,42 @@ import { useSearchParams } from "react-router-dom";
 
 export default function Feed() {
   const [searchParams] = useSearchParams();
-  const search = searchParams.get("q") ?? "";
+
+  const q = searchParams.get("q") ?? "";
+
+  const [sort, setSort] = useState("likes");
+  const [minForks, setMinForks] = useState<number | null>(null);
+  const [minContributors, setMinContributors] = useState<number | null>(null);
 
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     const fetchNote = async () => {
-      const data = await getNotes(search);
+      const data = await getNotes({
+        q,
+        sort,
+        minForks,
+        minContributors,
+      });
+
       setNotes(data);
     };
 
     fetchNote();
-  }, [search]);
+  }, [q, sort, minForks, minContributors]);
 
   return (
     <div className="flex h-screen flex-col bg-gray-950">
       <Topbar />
       <div className="flex min-h-0 flex-1 items-stretch">
-        <Sidebar />
+        <Sidebar
+          sort={sort}
+          setSort={setSort}
+          minForks={minForks}
+          setMinForks={setMinForks}
+          minContributors={minContributors}
+          setMinContributors={setMinContributors}
+        />
         <MainView notes={notes} />
       </div>
     </div>

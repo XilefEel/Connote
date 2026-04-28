@@ -60,7 +60,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
   .get(
     "/",
     async ({ query }) => {
-      const { q } = query;
+      const { q, sort, minForks, minContributors } = query;
 
       const allNotes = await db.select().from(notesTable);
 
@@ -71,20 +71,42 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         })),
       );
 
-      if (!q) return notesWithTags;
+      // filter by search query
+      const searched = q
+        ? notesWithTags.filter(
+            (n) =>
+              n.title.toLowerCase().includes(q.toLowerCase()) ||
+              n.description.toLowerCase().includes(q.toLowerCase()) ||
+              n.tags.some((t) => t.includes(q.toLowerCase())),
+          )
+        : notesWithTags;
 
-      console.log("searching for:", q);
+      // filter by min forks and contributors
+      const filtered = searched
+        .filter((n) => !minForks || n.forks >= minForks)
+        .filter((n) => !minContributors || n.contributors >= minContributors);
 
-      return notesWithTags.filter(
-        (n) =>
-          n.title.toLowerCase().includes(q) ||
-          n.description.toLowerCase().includes(q) ||
-          n.tags.some((t) => t.includes(q)),
-      );
+      // sort
+      const sorted = [...filtered].sort((a, b) => {
+        if (sort === "likes") return b.likes - a.likes;
+        if (sort === "forks") return b.forks - a.forks;
+        if (sort === "contributors") return b.contributors - a.contributors;
+        if (sort === "recent")
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+
+        return 0;
+      });
+
+      return sorted;
     },
     {
       query: t.Object({
         q: t.Optional(t.String()),
+        sort: t.Optional(t.String()),
+        minForks: t.Optional(t.Numeric()),
+        minContributors: t.Optional(t.Numeric()),
       }),
     },
   )

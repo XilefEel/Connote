@@ -2,11 +2,22 @@ import type { NewNote, Note, NoteVersion } from "../types/note";
 
 const BASE_URL = "http://localhost:3000";
 
-export const getNotes = async (search?: string): Promise<Note[]> => {
+export const getNotes = async (params?: {
+  q?: string;
+  sort?: string;
+  minForks?: number;
+  minContributors?: number;
+}): Promise<Note[]> => {
   try {
-    const query = search ? `?q=${encodeURIComponent(search)}` : "";
+    const query = new URLSearchParams();
 
-    const response = await fetch(`${BASE_URL}/notes${query}`);
+    if (params?.q) query.set("q", params.q);
+    if (params?.sort) query.set("sort", params.sort);
+    if (params?.minForks) query.set("minForks", String(params.minForks));
+    if (params?.minContributors)
+      query.set("minContributors", String(params.minContributors));
+
+    const response = await fetch(`${BASE_URL}/notes?${query.toString()}`);
     if (!response.ok) throw new Error("Failed to fetch notes");
 
     return response.json();
