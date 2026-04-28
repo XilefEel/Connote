@@ -17,7 +17,7 @@ export default function NoteCard({ note }: { note: Note }) {
           ))}
         </div>
 
-        <span className="text-xs text-gray-500">John Doe • 2h ago</span>
+        <span className="text-xs text-gray-500">{note.author} • 2h ago</span>
       </div>
 
       <div className="mt-1 flex flex-col gap-1">
@@ -47,7 +47,7 @@ export default function NoteCard({ note }: { note: Note }) {
         </div>
 
         <div className="ml-auto flex items-center gap-2 rounded bg-blue-900 px-2 py-0.5 text-blue-100 transition-colors hover:text-gray-200">
-          v6.2 • {note.contributors} contributors
+          v{note.version} • {note.contributors} contributors
         </div>
       </div>
     </div>

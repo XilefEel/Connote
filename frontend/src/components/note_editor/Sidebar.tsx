@@ -4,6 +4,7 @@ import { Check, CircleDot, Dot } from "lucide-react";
 import type { NewNote } from "../../lib/types/note";
 import { createNote, updateNote } from "../../lib/api/note";
 import { useNavigate, useParams } from "react-router-dom";
+import { getCurrentUser } from "../../lib/api/auth";
 
 export default function Sidebar({
   mode,
@@ -14,6 +15,7 @@ export default function Sidebar({
   note: NewNote;
   setNote: (note: NewNote) => void;
 }) {
+  const user = getCurrentUser();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -45,7 +47,14 @@ export default function Sidebar({
 
   const handleCommit = () => {
     if (!id || incompleteNote) return;
-    updateNote(id, { ...note, description, visibility, changeSummary });
+
+    updateNote(id, {
+      ...note,
+      description,
+      visibility,
+      changeSummary,
+      commitAuthor: user.username,
+    });
     navigate("/profile");
   };
 

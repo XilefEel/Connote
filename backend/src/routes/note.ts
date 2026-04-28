@@ -223,7 +223,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
       await createVersion(
         updated.id,
         updated.version,
-        updated.author,
+        body.commitAuthor || existing.author,
         body.changeSummary || "Updated note",
       );
 
@@ -236,6 +236,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         content: t.Optional(t.String()),
         tags: t.Optional(t.Array(t.String())),
         changeSummary: t.Optional(t.String()),
+        commitAuthor: t.Optional(t.String()),
       }),
     },
   )

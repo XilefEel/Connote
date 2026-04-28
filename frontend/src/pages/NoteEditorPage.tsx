@@ -3,18 +3,19 @@ import MainView from "../components/note_editor/MainView";
 import Sidebar from "../components/note_editor/Sidebar";
 import Topbar from "../components/note_editor/TopBar";
 import type { NewNote } from "../lib/types/note";
-
-const newNote: NewNote = {
-  title: "New Note",
-  description: "",
-  content: "",
-  author: "John Doe",
-  tags: [],
-  visibility: "public",
-};
+import { getCurrentUser } from "../lib/api/auth";
 
 export default function NoteEditor({ mode }: { mode: "create" | "edit" }) {
-  const [note, setNote] = useState<NewNote>(newNote);
+  const user = getCurrentUser();
+
+  const [note, setNote] = useState<NewNote>({
+    title: "New Note",
+    description: "",
+    content: "",
+    author: user ? user.username : "John Doe",
+    tags: [],
+    visibility: "public",
+  });
 
   return (
     <div className="flex h-screen flex-col bg-gray-950">

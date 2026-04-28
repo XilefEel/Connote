@@ -63,7 +63,7 @@ export const forkNoteById = async (
 
 export const updateNote = async (
   id: string,
-  note: Partial<NewNote> & { changeSummary?: string },
+  note: Partial<NewNote> & { changeSummary?: string; commitAuthor?: string },
 ): Promise<Note> => {
   try {
     const response = await fetch(`${BASE_URL}/notes/${id}`, {
