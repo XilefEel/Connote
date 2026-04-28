@@ -18,7 +18,10 @@ export default function SidebarLeft({
   notes: Note[];
 }) {
   const stats = [
-    { label: "Notes", value: notes.length },
+    {
+      label: "Notes",
+      value: notes.filter((note) => note.author === user.username).length,
+    },
     { label: "Followers", value: 12 },
     { label: "PRs merged", value: 3 },
     { label: "Forks", value: 7 },
@@ -27,8 +30,8 @@ export default function SidebarLeft({
   return (
     <div className="flex h-full w-64 flex-col gap-10 border-r border-r-gray-700 p-3 px-5">
       <div className="flex flex-col items-center gap-2">
-        <div className="flex size-16 items-center justify-center rounded-full bg-blue-500 text-xl font-bold text-white">
-          JD
+        <div className="flex size-16 items-center justify-center rounded-full bg-blue-500 text-xl font-bold text-white uppercase">
+          {user.username.slice(0, 2)}
         </div>
 
         <div>

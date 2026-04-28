@@ -36,7 +36,7 @@ export default function Sidebar({
 
   const handlePublish = () => {
     createNote(note);
-    navigate("/profile");
+    navigate(`/notes/${id}`);
   };
 
   const incompleteNote =

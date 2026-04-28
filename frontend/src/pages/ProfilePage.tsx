@@ -20,12 +20,13 @@ export default function Home() {
 
     fetchData();
   }, [username]);
+
   return (
     <div className="flex h-screen flex-col bg-gray-950">
       <Topbar />
       <div className="flex min-h-0 flex-1 items-stretch">
         <Sidebar user={user} notes={notes} />
-        <MainView notes={notes} />
+        <MainView user={user} notes={notes} />
       </div>
     </div>
   );

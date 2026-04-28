@@ -9,15 +9,7 @@ const sortOptions = [
   { label: "most contributors", sortKey: "contributors", Icon: Users },
 ];
 
-const tags = [
-  "interview prep",
-  "exam prep",
-  "data structures",
-  "beginner friendly",
-  "advanced",
-  "python",
-  "javascript",
-];
+const forkOptions = ["any", "2+ forks", "5+ forks", "10+ forks"];
 
 const contributorOptions = [
   "any",
@@ -31,8 +23,8 @@ export default function SidebarLeft() {
   const navigate = useNavigate();
 
   const currentSort = searchParams.get("sort") || "likes";
-  const currentTags = searchParams.get("tag")?.split(",").filter(Boolean) || [];
   const currentContributors = searchParams.get("contributors") || "any";
+  const currentForks = searchParams.get("forks") || "any";
 
   const buildUrl = (overrides: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams);
@@ -45,17 +37,14 @@ export default function SidebarLeft() {
     return `/feed?${params.toString()}`;
   };
 
-  const handleTagClick = (tag: string) => {
-    const next = currentTags.includes(tag)
-      ? currentTags.filter((t) => t !== tag)
-      : [...currentTags, tag];
-
-    navigate(buildUrl({ tag: next.join(",") }));
-  };
-
   const handleContributorClick = (option: string) => {
     const next = option === "any" ? "" : option;
     navigate(buildUrl({ contributors: next }));
+  };
+
+  const handleForkClick = (option: string) => {
+    const next = option === "any" ? "" : option;
+    navigate(buildUrl({ forks: next }));
   };
 
   return (
@@ -85,29 +74,6 @@ export default function SidebarLeft() {
 
       <div className="flex w-full flex-col gap-1 text-sm">
         <p className="px-3 text-xs font-bold tracking-wide text-gray-600 uppercase">
-          Tags
-        </p>
-
-        <div className="flex flex-row flex-wrap gap-1 text-xs">
-          {tags.map((tag) => (
-            <button
-              key={tag}
-              onClick={() => handleTagClick(tag)}
-              className={cn(
-                "flex cursor-pointer items-center gap-2 truncate rounded-lg border px-2 py-1 transition-colors hover:bg-gray-900 hover:text-white",
-                currentTags.includes(tag)
-                  ? "border-blue-500 text-white"
-                  : "border-gray-800",
-              )}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex w-full flex-col gap-1 text-sm">
-        <p className="px-3 text-xs font-bold tracking-wide text-gray-600 uppercase">
           Contributors
         </p>
 
@@ -119,6 +85,28 @@ export default function SidebarLeft() {
               className={cn(
                 "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white",
                 currentContributors === option &&
+                  "bg-gray-900 font-semibold text-white",
+              )}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex w-full flex-col gap-1 text-sm">
+        <p className="px-3 text-xs font-bold tracking-wide text-gray-600 uppercase">
+          Forks
+        </p>
+
+        <div className="flex flex-col gap-0.5 text-sm">
+          {forkOptions.map((option) => (
+            <button
+              key={option}
+              onClick={() => handleForkClick(option)}
+              className={cn(
+                "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white",
+                currentForks === option &&
                   "bg-gray-900 font-semibold text-white",
               )}
             >

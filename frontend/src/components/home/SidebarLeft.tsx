@@ -1,13 +1,5 @@
-import { Clock, Home, Settings, Star } from "lucide-react";
+import { Clock, Home, LogOut, Settings, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const subjects = [
-  { name: "Calculus", color: "bg-blue-500", count: 12 },
-  { name: "Organic Chemistry", color: "bg-green-500", count: 8 },
-  { name: "Geography", color: "bg-yellow-500", count: 5 },
-  { name: "Physics", color: "bg-red-500", count: 10 },
-  { name: "Literature", color: "bg-purple-500", count: 7 },
-];
 
 export default function SidebarLeft() {
   return (
@@ -41,33 +33,24 @@ export default function SidebarLeft() {
 
       <div className="flex w-full flex-col gap-1 text-sm">
         <p className="px-3 text-xs font-bold tracking-wide text-gray-500 uppercase">
-          My Subjects
+          Favorite Tags
         </p>
 
-        {subjects.map((subject) => (
-          <div
-            key={subject.name}
-            className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white"
-          >
-            <div
-              className={`${subject.color} h-2 w-2 rounded-full`}
-              title={subject.name}
-            />
-            {subject.name}
-            <span className="ml-auto text-xs text-gray-500">
-              {subject.count}
-            </span>
-          </div>
-        ))}
-
-        <p className="px-3 font-mono tracking-wide text-gray-500 transition hover:text-gray-400">
-          + follow subject
+        <p className="cursor-pointer px-3 tracking-wide text-gray-500 transition hover:text-gray-400">
+          + favorite tag
         </p>
       </div>
 
-      <div className="mt-auto flex items-center gap-2 rounded px-3 py-1 text-sm transition-colors hover:bg-gray-900 hover:text-white">
-        <Settings size={16} />
-        Settings
+      <div className="mt-auto flex flex-col gap-2">
+        <div className="flex cursor-pointer items-center gap-2 rounded px-3 py-1 text-sm transition-colors hover:bg-gray-900 hover:text-white">
+          <Settings size={16} />
+          Settings
+        </div>
+
+        <div className="flex cursor-pointer items-center gap-2 rounded px-3 py-1 text-sm transition-colors hover:bg-gray-900 hover:text-red-500">
+          <LogOut size={16} />
+          Logout
+        </div>
       </div>
     </div>
   );

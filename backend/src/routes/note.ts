@@ -57,16 +57,37 @@ const createVersion = async (
 
 export const notesRoutes = new Elysia({ prefix: "/notes" })
   // get all notes
-  .get("/", async () => {
-    const allNotes = await db.select().from(notesTable);
+  .get(
+    "/",
+    async ({ query }) => {
+      const { q } = query;
 
-    return await Promise.all(
-      allNotes.map(async (note) => ({
-        ...note,
-        tags: await getNoteTags(note.id),
-      })),
-    );
-  })
+      const allNotes = await db.select().from(notesTable);
+
+      const notesWithTags = await Promise.all(
+        allNotes.map(async (note) => ({
+          ...note,
+          tags: await getNoteTags(note.id),
+        })),
+      );
+
+      if (!q) return notesWithTags;
+
+      console.log("searching for:", q);
+
+      return notesWithTags.filter(
+        (n) =>
+          n.title.toLowerCase().includes(q) ||
+          n.description.toLowerCase().includes(q) ||
+          n.tags.some((t) => t.includes(q)),
+      );
+    },
+    {
+      query: t.Object({
+        q: t.Optional(t.String()),
+      }),
+    },
+  )
 
   // get single note
   .get("/:id", async ({ params, set }) => {

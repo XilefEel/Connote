@@ -4,17 +4,18 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getCurrentUser } from "../lib/api/auth";
 
 export default function Topbar() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const user = getCurrentUser();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const user = getCurrentUser();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
 
     const params = new URLSearchParams(searchParams);
     params.set("q", searchQuery.trim());
+
     navigate(`/feed?${params.toString()}`);
   };
 
@@ -32,9 +33,10 @@ export default function Topbar() {
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           className="w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 pl-10 text-sm text-white placeholder-gray-600 transition-colors outline-none focus:border-blue-500"
         />
+
         <button
           onClick={handleSearch}
-          className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-300"
+          className="absolute top-1/2 left-3 -translate-y-1/2 cursor-pointer text-gray-500 transition-colors hover:text-gray-300"
         >
           <Search size={16} />
         </button>
@@ -50,9 +52,9 @@ export default function Topbar() {
 
         <Link
           to={`/profile/${user.username}`}
-          className="flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-500 text-sm font-semibold text-white"
+          className="flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-500 text-sm font-semibold text-white uppercase"
         >
-          JD
+          {user.username.slice(0, 2)}
         </Link>
       </div>
     </div>

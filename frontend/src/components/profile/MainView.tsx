@@ -2,16 +2,26 @@ import { useState } from "react";
 import NoteCard from "../NoteCard";
 import { cn } from "../../lib/utils";
 import type { Note } from "../../lib/types/note";
+import type { User } from "../../lib/types/user";
 
-const tabs = [
-  { label: "my notes", value: 7 },
-  { label: "forks", value: 19 },
-  { label: "pull requests", value: 8 },
-  { label: "likes", value: 15 },
-];
-
-export default function MainView({ notes }: { notes: Note[] }) {
+export default function MainView({
+  user,
+  notes,
+}: {
+  user: User;
+  notes: Note[];
+}) {
   const [activeTab, setActiveTab] = useState(0);
+
+  const tabs = [
+    {
+      label: "my notes",
+      value: notes.filter((note) => note.author === user.username).length,
+    },
+    { label: "forks", value: 19 },
+    { label: "pull requests", value: 8 },
+    { label: "likes", value: 15 },
+  ];
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">

@@ -2,10 +2,13 @@ import type { NewNote, Note, NoteVersion } from "../types/note";
 
 const BASE_URL = "http://localhost:3000";
 
-export const getNotes = async (): Promise<Note[]> => {
+export const getNotes = async (search?: string): Promise<Note[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/notes`);
+    const query = search ? `?q=${encodeURIComponent(search)}` : "";
+
+    const response = await fetch(`${BASE_URL}/notes${query}`);
     if (!response.ok) throw new Error("Failed to fetch notes");
+
     return response.json();
   } catch (error) {
     console.error("Error fetching notes:", error);
@@ -17,6 +20,7 @@ export const getNoteById = async (id: string): Promise<Note> => {
   try {
     const response = await fetch(`${BASE_URL}/notes/${id}`);
     if (!response.ok) throw new Error("Failed to fetch note");
+
     return response.json();
   } catch (error) {
     console.error("Error fetching note:", error);
