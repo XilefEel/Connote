@@ -50,7 +50,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
     },
     {
       body: t.Object({
-        username: t.String(),
+        username: t.String({ pattern: "^[a-zA-Z0-9_]+$" }),
         email: t.String(),
         password: t.String(),
       }),

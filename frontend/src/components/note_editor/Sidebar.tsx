@@ -55,7 +55,8 @@ export default function Sidebar({
       changeSummary,
       commitAuthor: user.username,
     });
-    navigate("/profile");
+
+    navigate(`/notes/${id}`);
   };
 
   return (

@@ -19,7 +19,7 @@ export default function App() {
 
         <Route path="/home" element={<Home />} />
         <Route path="/feed" element={<Feed />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:username" element={<Profile />} />
 
         <Route path="/note/:id" element={<NotePage />} />
         <Route path="/note/new" element={<NoteEditor mode="create" />} />

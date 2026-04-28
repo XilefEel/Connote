@@ -11,7 +11,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -20,6 +20,11 @@ export default function RegisterPage() {
     e.preventDefault();
     setError("");
 
+    if (!/^[a-zA-Z0-9_]+$/.test(form.username)) {
+      setError("Username can only contain letters, numbers, and underscores");
+      return;
+    }
+
     if (form.password.length < 8) {
       setError("Password minimal 8 karakter.");
       return;
@@ -27,7 +32,7 @@ export default function RegisterPage() {
 
     setLoading(true);
 
-    await register(form.name, form.email, form.password);
+    await register(form.username, form.email, form.password);
 
     setLoading(false);
     navigate("/login");
@@ -54,8 +59,8 @@ export default function RegisterPage() {
             <input
               type="text"
               placeholder="Nama Lengkap"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={form.username}
+              onChange={(e) => setForm({ ...form, username: e.target.value })}
               required
               className="w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-sm text-white placeholder-gray-600 transition-colors outline-none focus:border-blue-500"
             />

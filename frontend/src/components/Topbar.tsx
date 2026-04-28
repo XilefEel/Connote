@@ -1,11 +1,14 @@
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getCurrentUser } from "../lib/api/auth";
 
 export default function Topbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const user = getCurrentUser();
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
@@ -46,7 +49,7 @@ export default function Topbar() {
         </Link>
 
         <Link
-          to="/profile"
+          to={`/profile/${user.username}`}
           className="flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-500 text-sm font-semibold text-white"
         >
           JD

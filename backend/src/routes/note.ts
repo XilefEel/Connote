@@ -9,7 +9,7 @@ import {
 import { eq } from "drizzle-orm";
 
 // get all tags for a note
-const getNoteTags = async (noteId: number) => {
+export const getNoteTags = async (noteId: number) => {
   const result = await db
     .select({ name: tagsTable.name })
     .from(tagsTable)

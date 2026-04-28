@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NoteCard from "../NoteCard";
 import { cn } from "../../lib/utils";
-import { getNotes } from "../../lib/api/note";
+import type { Note } from "../../lib/types/note";
 
 const tabs = [
   { label: "my notes", value: 7 },
@@ -10,19 +10,8 @@ const tabs = [
   { label: "likes", value: 15 },
 ];
 
-export default function MainView() {
+export default function MainView({ notes }: { notes: Note[] }) {
   const [activeTab, setActiveTab] = useState(0);
-
-  const [notes, setNotes] = useState([]);
-
-  useEffect(() => {
-    const fetchNotes = async () => {
-      const notes = await getNotes();
-      setNotes(notes);
-    };
-
-    fetchNotes();
-  }, []);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">

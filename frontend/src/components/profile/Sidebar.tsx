@@ -1,11 +1,6 @@
+import type { Note } from "../../lib/types/note";
+import type { User } from "../../lib/types/user";
 import { cn } from "../../lib/utils";
-
-const stats = [
-  { label: "Notes", value: 15 },
-  { label: "Followers", value: 120 },
-  { label: "PRs merged", value: 30 },
-  { label: "Forks", value: 7 },
-];
 
 const badges = [
   { label: "Top Contributor", color: "bg-yellow-500" },
@@ -15,7 +10,20 @@ const badges = [
   { label: "Bug Squasher", color: "bg-red-500" },
 ];
 
-export default function SidebarLeft() {
+export default function SidebarLeft({
+  user,
+  notes,
+}: {
+  user: User;
+  notes: Note[];
+}) {
+  const stats = [
+    { label: "Notes", value: notes.length },
+    { label: "Followers", value: 12 },
+    { label: "PRs merged", value: 3 },
+    { label: "Forks", value: 7 },
+  ];
+
   return (
     <div className="flex h-full w-64 flex-col gap-10 border-r border-r-gray-700 p-3 px-5">
       <div className="flex flex-col items-center gap-2">
@@ -24,8 +32,8 @@ export default function SidebarLeft() {
         </div>
 
         <div>
-          <h2 className="font-semibold text-gray-200">John Doe</h2>
-          <p className="text-xs text-gray-600">@johndoe123</p>
+          <h2 className="font-semibold text-gray-200">{user.username}</h2>
+          <p className="text-xs text-gray-600">@{user.username}</p>
         </div>
 
         <p className="text-center text-xs text-gray-400">

@@ -1,15 +1,8 @@
 import { Link } from "react-router-dom";
-import { cn } from "../../lib/utils";
+import { cn, getContributors } from "../../lib/utils";
 import { type NoteVersion, type Note } from "../../lib/types/note";
 import { useEffect, useState } from "react";
 import { getNoteVersionsById } from "../../lib/api/note";
-
-const contributors = [
-  { pfp: "AL", username: "Alice", edits: 4 },
-  { pfp: "BO", username: "Bob", edits: 1 },
-  { pfp: "CH", username: "Charlie", edits: 2 },
-  { pfp: "DA", username: "David", edits: 1 },
-];
 
 const notableForks = [
   {
@@ -32,6 +25,8 @@ export default function SidebarLeft({ note }: { note: Note }) {
   const [versionHistory, setVersionHistory] = useState<NoteVersion[]>(
     [] as NoteVersion[],
   );
+
+  const contributors = getContributors(versionHistory);
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -68,9 +63,12 @@ export default function SidebarLeft({ note }: { note: Note }) {
                 {c.pfp}
               </div>
 
-              <span className="text-sm font-medium text-gray-300">
+              <Link
+                to={`/profile/${c.username}`}
+                className="text-sm font-medium text-gray-300 hover:text-blue-400"
+              >
                 {c.username}
-              </span>
+              </Link>
 
               <span className="ml-auto text-xs text-gray-500">
                 {c.edits} {c.edits > 1 ? "edits" : "edit"}
@@ -108,8 +106,13 @@ export default function SidebarLeft({ note }: { note: Note }) {
                 </span>
 
                 <span className="text-xs text-gray-500">
-                  {version.author} •{" "}
-                  {new Date(version.createdAt).toLocaleDateString()}
+                  <Link
+                    to={`/profile/${version.author}`}
+                    className="hover:text-blue-400"
+                  >
+                    {version.author}
+                  </Link>{" "}
+                  • {new Date(version.createdAt).toLocaleDateString()}
                 </span>
 
                 <span className="truncate text-xs text-gray-500">
