@@ -5,7 +5,14 @@ import {
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
-// notes table
+export const usersTable = sqliteTable("users", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(),
+  createdAt: text("created_at").notNull().default(new Date().toISOString()),
+});
+
 export const notesTable = sqliteTable("notes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
@@ -23,7 +30,6 @@ export const notesTable = sqliteTable("notes", {
   updatedAt: text("updated_at").notNull().default(new Date().toISOString()),
 });
 
-// tags table
 export const tagsTable = sqliteTable("tags", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull().unique(),
@@ -43,7 +49,6 @@ export const noteTagsTable = sqliteTable(
   (table) => [uniqueIndex("note_tags_unique").on(table.noteId, table.tagId)],
 );
 
-// note_versions table
 export const noteVersionsTable = sqliteTable("note_versions", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   noteId: integer("note_id")

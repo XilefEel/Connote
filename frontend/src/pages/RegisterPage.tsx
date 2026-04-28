@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowRight, KeyRound, Mail, User2 } from "lucide-react";
+import { register } from "../lib/api/auth";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -26,11 +27,10 @@ export default function RegisterPage() {
 
     setLoading(true);
 
-    // TODO: ganti dengan API call ke backend PHP
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/home");
-    }, 100000);
+    await register(form.name, form.email, form.password);
+
+    setLoading(false);
+    navigate("/login");
   };
 
   return (

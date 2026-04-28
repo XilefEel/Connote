@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowRight, Mail, KeyRound } from "lucide-react";
+import { login } from "../lib/api/auth";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -12,14 +13,18 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+    try {
+      e.preventDefault();
+      await login(form.email, form.password);
 
-    setTimeout(() => {
-      setLoading(false);
+      setLoading(true);
+      setError("");
       navigate("/home");
-    }, 100000);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
