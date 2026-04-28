@@ -22,7 +22,7 @@ const contributorOptions = [
   { label: "6+ contributors", value: 6 },
 ];
 
-export default function SidebarLeft({
+export default function Sidebar({
   sort,
   setSort,
   minForks,

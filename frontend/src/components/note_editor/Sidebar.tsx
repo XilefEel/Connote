@@ -29,6 +29,12 @@ export default function Sidebar({
     { criteria: "at least 1 tag added", complete: note.tags.length > 0 },
   ];
 
+  const incompleteNote =
+    !note.title ||
+    !note.content ||
+    note.tags.length === 0 ||
+    (mode === "edit" && changeSummary.trim() === "");
+
   const handleVisibilityChange = (newVisibility: "public" | "private") => {
     setVisibility(newVisibility);
     setNote({ ...note, visibility: newVisibility as "public" | "private" });
@@ -36,14 +42,8 @@ export default function Sidebar({
 
   const handlePublish = () => {
     createNote(note);
-    navigate(`/notes/${id}`);
+    navigate(`/note/${id}`);
   };
-
-  const incompleteNote =
-    !note.title ||
-    !note.content ||
-    note.tags.length === 0 ||
-    (mode === "edit" && changeSummary.trim() === "");
 
   const handleCommit = () => {
     if (!id || incompleteNote) return;
@@ -56,7 +56,7 @@ export default function Sidebar({
       commitAuthor: user.username,
     });
 
-    navigate(`/notes/${id}`);
+    navigate(`/note/${id}`);
   };
 
   return (

@@ -4,7 +4,9 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 right-0 left-0 z-50 border-b border-gray-800 bg-gray-950/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <span className="text-lg font-bold text-white">Connote</span>
+        <p className="shrink-0 text-xl font-bold text-white">
+          con<span className="text-blue-500">note</span>
+        </p>
 
         <div className="flex items-center gap-3">
           <Link

@@ -7,18 +7,13 @@ export type NewNote = {
   visibility: "public" | "private";
 };
 
-export type Note = {
+export type Note = NewNote & {
   id: number;
-  title: string;
-  description: string;
-  content: string;
-  author: string;
-  version: string;
-  visibility: "public" | "private";
   likes: number;
   comments: number;
   forks: number;
   contributors: number;
+  version: string;
   tags: string[];
   forkedFrom?: number | null;
   createdAt: string;

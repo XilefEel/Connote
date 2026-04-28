@@ -64,42 +64,37 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
 
       const allNotes = await db.select().from(notesTable);
 
-      const notesWithTags = await Promise.all(
+      const withTags = await Promise.all(
         allNotes.map(async (note) => ({
           ...note,
           tags: await getNoteTags(note.id),
         })),
       );
 
-      // filter by search query
-      const searched = q
-        ? notesWithTags.filter(
-            (n) =>
-              n.title.toLowerCase().includes(q.toLowerCase()) ||
-              n.description.toLowerCase().includes(q.toLowerCase()) ||
-              n.tags.some((t) => t.includes(q.toLowerCase())),
-          )
-        : notesWithTags;
+      return withTags
+        .filter(
+          (n) =>
+            !q ||
+            n.title.toLowerCase().includes(q.toLowerCase()) ||
+            n.description.toLowerCase().includes(q.toLowerCase()) ||
+            n.tags.some((t) => t.includes(q.toLowerCase())),
+        )
 
-      // filter by min forks and contributors
-      const filtered = searched
         .filter((n) => !minForks || n.forks >= minForks)
-        .filter((n) => !minContributors || n.contributors >= minContributors);
 
-      // sort
-      const sorted = [...filtered].sort((a, b) => {
-        if (sort === "likes") return b.likes - a.likes;
-        if (sort === "forks") return b.forks - a.forks;
-        if (sort === "contributors") return b.contributors - a.contributors;
-        if (sort === "recent")
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
+        .filter((n) => !minContributors || n.contributors >= minContributors)
 
-        return 0;
-      });
+        .sort((a, b) => {
+          if (sort === "likes") return b.likes - a.likes;
+          if (sort === "forks") return b.forks - a.forks;
+          if (sort === "contributors") return b.contributors - a.contributors;
+          if (sort === "recent")
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
 
-      return sorted;
+          return b.likes - a.likes;
+        });
     },
     {
       query: t.Object({

@@ -6,27 +6,27 @@ import MainView from "../components/note_view/MainView";
 import Sidebar from "../components/note_view/Sidebar";
 import Topbar from "../components/Topbar";
 import { getNoteById } from "../lib/api/note";
-
-const dummyNote = {
-  id: 1,
-  title: "",
-  description: "",
-  author: "John Doe",
-  version: "v1.0",
-  visibility: "public" as "public" | "private",
-  likes: 0,
-  comments: 0,
-  forks: 0,
-  contributors: 0,
-  tags: [],
-  content: "",
-  createdAt: "",
-  updatedAt: "",
-};
+import type { Note } from "../lib/types/note";
 
 export default function NotePage() {
-  const [note, setNote] = useState(dummyNote);
   const { id } = useParams();
+
+  const [note, setNote] = useState<Note>({
+    id: 1,
+    title: "",
+    description: "",
+    author: "John Doe",
+    visibility: "public" as "public" | "private",
+    likes: 0,
+    comments: 0,
+    forks: 0,
+    contributors: 0,
+    version: "1.0",
+    tags: [],
+    content: "",
+    createdAt: "",
+    updatedAt: "",
+  });
 
   const editor = useEditor({
     extensions: [StarterKit],

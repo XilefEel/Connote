@@ -1,6 +1,5 @@
 import type { NewNote, Note, NoteVersion } from "../types/note";
-
-const BASE_URL = "http://localhost:3000";
+import { BASE_URL } from "../utils";
 
 export const getNotes = async (params?: {
   q?: string;

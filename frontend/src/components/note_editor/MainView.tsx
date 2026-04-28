@@ -29,6 +29,7 @@ export default function MainView({
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const value = e.currentTarget.value.trim();
+
       if (value && !note.tags.includes(value)) {
         setNote({ ...note, tags: [...note.tags, value] });
       }
@@ -64,19 +65,6 @@ export default function MainView({
       />
 
       <div className="flex flex-wrap items-center gap-2 text-xs">
-        <select className="rounded bg-gray-900 px-3 py-1 text-gray-100 outline-none">
-          <option value="">Select subject...</option>
-          <option value="Computer Science">Computer Science</option>
-          <option value="Mathematics">Mathematics</option>
-          <option value="Physics">Physics</option>
-          <option value="Chemistry">Chemistry</option>
-          <option value="Biology">Biology</option>
-          <option value="Economics">Economics</option>
-          <option value="Psychology">Psychology</option>
-          <option value="Philosophy">Philosophy</option>
-          <option value="Literature">Literature</option>
-        </select>
-
         <div className="flex flex-wrap items-center gap-2">
           {note.tags.map((tag) => (
             <span

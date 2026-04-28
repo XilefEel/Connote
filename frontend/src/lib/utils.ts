@@ -1,6 +1,9 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { Contributor, NoteVersion } from "./types/note";
+import type { NoteVersion } from "./types/note";
+import type { Contributor } from "./types/user";
+
+export const BASE_URL = "http://localhost:3000";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

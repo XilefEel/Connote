@@ -1,7 +1,6 @@
 import type { Note } from "../types/note";
 import type { User } from "../types/user";
-
-const BASE_URL = "http://localhost:3000";
+import { BASE_URL } from "../utils";
 
 export const getUserByUsername = async (
   username: string,

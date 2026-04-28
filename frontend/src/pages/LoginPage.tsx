@@ -5,8 +5,8 @@ import { login } from "../lib/api/auth";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

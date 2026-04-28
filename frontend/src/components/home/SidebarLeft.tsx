@@ -1,7 +1,30 @@
-import { Clock, Home, LogOut, Settings, Star } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  ChartLine,
+  Clock,
+  Home,
+  LogOut,
+  Settings,
+  Star,
+  User,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../lib/api/auth";
+
+const sortOptions = [
+  { label: "Popular", sortKey: "popular", Icon: Star },
+  { label: "Recent", sortKey: "recent", Icon: Clock },
+  { label: "Trending", sortKey: "trending", Icon: ChartLine },
+  { label: "Following", sortKey: "following", Icon: User },
+];
 
 export default function SidebarLeft() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <div className="flex h-full w-64 flex-col gap-7 border-r border-r-gray-700 p-3 text-gray-200">
       <div className="flex w-full flex-col gap-1 text-sm">
@@ -14,21 +37,16 @@ export default function SidebarLeft() {
           Home
         </div>
 
-        <Link
-          to="/home?sort=popular"
-          className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white"
-        >
-          <Star size={16} />
-          Popular
-        </Link>
-
-        <Link
-          to="/home?sort=recent"
-          className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white"
-        >
-          <Clock size={16} />
-          Recent
-        </Link>
+        {sortOptions.map((option) => (
+          <Link
+            key={option.sortKey}
+            to={`/home?sort=${option.sortKey}`}
+            className="flex items-center gap-2 rounded border-b-gray-700 px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white"
+          >
+            {option.Icon && <option.Icon size={16} />}
+            {option.label}
+          </Link>
+        ))}
       </div>
 
       <div className="flex w-full flex-col gap-1 text-sm">
@@ -47,7 +65,10 @@ export default function SidebarLeft() {
           Settings
         </div>
 
-        <div className="flex cursor-pointer items-center gap-2 rounded px-3 py-1 text-sm transition-colors hover:bg-gray-900 hover:text-red-500">
+        <div
+          onClick={handleLogout}
+          className="flex cursor-pointer items-center gap-2 rounded px-3 py-1 text-sm transition-colors hover:bg-gray-900 hover:text-red-500"
+        >
           <LogOut size={16} />
           Logout
         </div>
