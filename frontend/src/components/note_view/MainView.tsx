@@ -91,7 +91,9 @@ export default function MainView({
         <span className="text-gray-600">by</span>
         <span className="font-medium text-gray-300">{note.author}</span>
         <span className="text-gray-600">·</span>
-        <span className="text-gray-500">{note.createdAt}</span>
+        <span className="text-gray-500">
+          {new Date(note.createdAt).toLocaleDateString("en-CA")}
+        </span>
       </div>
 
       <div className="flex items-center gap-5 border-t border-t-gray-800 px-5 pt-2 text-sm text-gray-500">

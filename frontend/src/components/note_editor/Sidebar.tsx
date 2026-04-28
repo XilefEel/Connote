@@ -35,6 +35,11 @@ export default function Sidebar({
     note.tags.length === 0 ||
     (mode === "edit" && changeSummary.trim() === "");
 
+  const handleDescriptionChange = (newDescription: string) => {
+    setDescription(newDescription);
+    setNote({ ...note, description: newDescription });
+  };
+
   const handleVisibilityChange = (newVisibility: "public" | "private") => {
     setVisibility(newVisibility);
     setNote({ ...note, visibility: newVisibility as "public" | "private" });
@@ -70,7 +75,7 @@ export default function Sidebar({
           className="min-h-40 w-full rounded bg-gray-900 p-3 text-xs text-gray-100 outline-none"
           placeholder="Note description (optional)"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => handleDescriptionChange(e.target.value)}
         />
       </div>
 

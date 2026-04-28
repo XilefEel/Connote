@@ -55,7 +55,7 @@ export default function MainView({ notes }: { notes: Note[] }) {
         )}
       >
         {notes.map((note, index) => (
-          <NoteCard key={index} note={note} />
+          <NoteCard key={index} note={note} compact={viewMode === "grid"} />
         ))}
       </div>
     </div>

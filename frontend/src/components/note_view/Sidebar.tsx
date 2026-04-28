@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { cn, getContributors } from "../../lib/utils";
+import { cn, getContributors, timeAgo } from "../../lib/utils";
 import { type NoteVersion, type Note } from "../../lib/types/note";
 import { useEffect, useState } from "react";
 import { getNoteVersionsById } from "../../lib/api/note";
@@ -112,7 +112,7 @@ export default function SidebarLeft({ note }: { note: Note }) {
                   >
                     {version.author}
                   </Link>{" "}
-                  • {new Date(version.createdAt).toLocaleDateString()}
+                  • {timeAgo(version.createdAt)}
                 </span>
 
                 <span className="truncate text-xs text-gray-500">
@@ -150,9 +150,7 @@ export default function SidebarLeft({ note }: { note: Note }) {
               <div className="flex items-center gap-2">
                 <span className="text-blue-500">{fork.author}</span>
                 <span className="text-gray-600">•</span>
-                <Link to={`/note/${fork.id}`} className="text-gray-300">
-                  {fork.title}
-                </Link>
+                <span className="text-gray-300">{fork.title}</span>
               </div>
 
               <div className="flex items-center gap-2 text-xs tracking-wide text-gray-600">
