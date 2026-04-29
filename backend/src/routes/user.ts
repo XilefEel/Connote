@@ -6,45 +6,22 @@ import { getNoteTags } from "./note";
 
 export const usersRoutes = new Elysia({ prefix: "/users" }).get(
   "/:username",
-  async ({ params, set }) => {
-    const userNotes = await db
+  async ({ params }) => {
+    const allNotes = await db
       .select()
       .from(notesTable)
       .where(eq(notesTable.author, params.username));
 
-    if (!userNotes.length) {
-      set.status = 404;
-      return { message: "User not found" };
-    }
+    const notes = allNotes.filter((n) => n.forkedFrom === null);
+    const forks = allNotes.filter((n) => n.forkedFrom !== null);
 
-    const withTags = await Promise.all(
-      userNotes.map(async (note) => ({
-        ...note,
-        tags: await getNoteTags(note.id),
-      })),
-    );
-
-    const [notes, forks, openPRs] = await Promise.all([
-      db
-        .select()
-        .from(notesTable)
-        .where(
-          and(
-            eq(notesTable.author, params.username),
-            isNull(notesTable.forkedFrom),
-          ),
-        ),
-
-      db
-        .select()
-        .from(notesTable)
-        .where(
-          and(
-            eq(notesTable.author, params.username),
-            isNotNull(notesTable.forkedFrom),
-          ),
-        ),
-
+    const [withTags, openPRs] = await Promise.all([
+      Promise.all(
+        allNotes.map(async (note) => ({
+          ...note,
+          tags: await getNoteTags(note.id),
+        })),
+      ),
       db
         .select()
         .from(pullRequestsTable)
@@ -61,9 +38,10 @@ export const usersRoutes = new Elysia({ prefix: "/users" }).get(
       stats: {
         notesCreated: notes.length,
         forksCount: forks.length,
+        openPRsCount: openPRs.length,
       },
       notes: withTags,
-      openPRs: openPRs,
+      openPRs,
     };
   },
 );

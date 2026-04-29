@@ -82,7 +82,7 @@ export default function MainView({
             .map((note) => <NoteCard key={note.id} note={note} />)}
 
         {activeTab === "Pull Requests" &&
-          openPrs.map((pr) => <PRCard key={pr.id} pullRequest={pr} />)}
+          openPrs.map((pr) => <PRCard key={pr.id} pr={pr} />)}
       </div>
     </div>
   );

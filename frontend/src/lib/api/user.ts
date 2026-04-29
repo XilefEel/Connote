@@ -9,6 +9,7 @@ export const getUserDataByUsername = async (
   stats: {
     notesCreated: number;
     forksCount: number;
+    openPRCount: number;
   };
   notes: Note[];
   openPRs: PullRequest[];
