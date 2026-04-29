@@ -101,12 +101,12 @@ export default function MainView({
       <div className="flex items-center gap-5 border-t border-t-zinc-800 px-5 pt-2 text-sm text-zinc-500">
         <p className="flex items-center gap-2 rounded transition-colors hover:text-zinc-200">
           <ThumbsUp size={12} />
-          {note.likes} likes
+          {note.likes} suka
         </p>
 
         <p className="flex items-center gap-2 rounded transition-colors hover:text-zinc-200">
           <MessageSquare size={12} />
-          {note.comments} comments
+          {note.comments} komentar
         </p>
 
         <button
@@ -125,7 +125,7 @@ export default function MainView({
 
       <div className="flex flex-col gap-3 border-t border-t-zinc-800 pt-5">
         <h2 className="text-base font-semibold text-zinc-100">
-          {note.comments} Comments
+          {note.comments} Komentar
         </h2>
 
         <div className="flex min-h-40 flex-col items-start rounded-xl border border-zinc-800 bg-zinc-900 p-3">
@@ -135,7 +135,7 @@ export default function MainView({
           />
 
           <button className="ml-auto cursor-pointer rounded bg-teal-500 px-4 py-1 text-xs font-medium text-zinc-200 transition-colors hover:bg-teal-600">
-            comment
+            Kirim
           </button>
         </div>
 

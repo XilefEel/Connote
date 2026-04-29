@@ -39,7 +39,7 @@ export default function SidebarRight() {
 
   const activities = [
     {
-      activity: "notes created",
+      activity: "catatan dibuat",
       count: userStats.notesCreated,
     },
     {
@@ -47,11 +47,11 @@ export default function SidebarRight() {
       count: userStats.forks,
     },
     {
-      activity: "open PRs",
+      activity: "PR aktif",
       count: userStats.openPRCount,
     },
     {
-      activity: "likes",
+      activity: "suka",
       count: 0,
     },
   ];
@@ -75,7 +75,7 @@ export default function SidebarRight() {
   return (
     <div className="flex w-56 flex-col items-center gap-4 border-l border-zinc-700 p-3 text-xs">
       <div className="flex w-full flex-col rounded-lg border border-zinc-700 bg-zinc-900 p-4">
-        <p className="text-zinc-300">trending tags</p>
+        <p className="text-zinc-300">tag trending</p>
         <div className="mt-2 flex flex-col gap-2">
           {trending_tags.map((item, index) => (
             <div key={index} className="flex items-center justify-between">
@@ -91,7 +91,7 @@ export default function SidebarRight() {
       </div>
 
       <div className="flex w-full flex-col rounded-lg border border-zinc-700 bg-zinc-900 p-4">
-        <p className="text-zinc-300">your activity</p>
+        <p className="text-zinc-300">aktivitas kamu</p>
         <div className="mt-2 flex flex-col gap-2">
           {activities.map((item, index) => (
             <div key={index} className="flex items-center justify-between">

@@ -59,7 +59,7 @@ export default function MainView({
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
       <input
         className="text-2xl font-bold text-zinc-100 placeholder-zinc-600 outline-none"
-        placeholder="note title..."
+        placeholder="judul catatan..."
         value={note.title}
         onChange={(e) => setNote({ ...note, title: e.target.value })}
       />
@@ -82,7 +82,7 @@ export default function MainView({
 
           <input
             className="rounded border border-zinc-800 px-3 py-1 text-xs text-zinc-100 outline-none"
-            placeholder="Add tag..."
+            placeholder="Tambah tag..."
             onKeyDown={handleAddTag}
           />
         </div>

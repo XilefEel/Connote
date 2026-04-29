@@ -16,7 +16,7 @@ export default function ForkedFrom({
   return (
     <div className="border-t border-t-zinc-800 pt-4">
       <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-        Forked From
+        Fork Dari
       </h3>
 
       <p className="flex flex-col text-xs font-semibold text-zinc-600">
@@ -32,7 +32,7 @@ export default function ForkedFrom({
               </Link>
             </div>
           ) : (
-            "this is an original note"
+            "ini adalah catatan asli"
           )}
         </span>
 

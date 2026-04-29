@@ -12,7 +12,7 @@ export default function Contributors({
   return (
     <div className="border-t border-t-zinc-800 pt-4">
       <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-        Contributors
+        Kontributor
       </h3>
 
       <div className="flex flex-col gap-2">

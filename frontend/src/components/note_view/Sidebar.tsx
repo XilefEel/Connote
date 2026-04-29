@@ -50,13 +50,13 @@ export default function Sidebar({
     <div className="flex h-full w-64 flex-col gap-4 overflow-y-auto border-l border-l-zinc-700 p-3 px-5">
       <div>
         <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-          Description
+          Deskripsi
         </h3>
 
         <p className="text-xs text-zinc-300">
           {note.description
             ? note.description
-            : "No description provided for this note."}
+            : "Tidak ada deskripsi untuk catatan ini."}
         </p>
       </div>
 

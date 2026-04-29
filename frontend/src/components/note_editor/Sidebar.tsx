@@ -24,9 +24,9 @@ export default function Sidebar({
   const [visibility, setVisibility] = useState<"public" | "private">("public");
 
   const beforePublishing = [
-    { criteria: "title filled in", complete: !!note.title },
-    { criteria: "content filled in", complete: !!note.content },
-    { criteria: "at least 1 tag added", complete: note.tags.length > 0 },
+    { criteria: "judul sudah diisi", complete: !!note.title },
+    { criteria: "konten sudah diisi", complete: !!note.content },
+    { criteria: "minimal ada 1 tag", complete: note.tags.length > 0 },
   ];
 
   const incompleteNote =
@@ -65,15 +65,15 @@ export default function Sidebar({
   };
 
   return (
-    <div className="flex h-full w-64 flex-col gap-4 border-l border-l-zinc-700 p-3 px-5">
+    <div className="flex h-full w-64 flex-col gap-4 overflow-y-auto border-l border-l-zinc-700 p-3 px-5">
       <div>
         <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-          Description
+          Deskripsi
         </h3>
 
         <textarea
           className="min-h-40 w-full rounded bg-zinc-900 p-3 text-xs text-zinc-100 outline-none"
-          placeholder="Note description (optional)"
+          placeholder="Deskripsi catatan (opsional)"
           value={description}
           onChange={(e) => handleDescriptionChange(e.target.value)}
         />
@@ -81,7 +81,7 @@ export default function Sidebar({
 
       <div className="mb-auto">
         <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-          Visibility
+          Visibilitas
         </h3>
 
         <div className="flex flex-col gap-2">
@@ -96,14 +96,16 @@ export default function Sidebar({
           >
             <CircleDot
               className={cn(
-                "size-4",
+                "size-4 shrink-0",
                 visibility === "public" ? "text-teal-500" : "text-zinc-500",
               )}
             />
 
             <div className="flex flex-col items-start">
-              <span className="text-zinc-100">Public</span>
-              <span className="text-zinc-500">anyone can find and fork</span>
+              <span className="text-zinc-100">Publik</span>
+              <span className="text-start text-zinc-500">
+                dapat ditemukan dan di-fork oleh siapa saja
+              </span>
             </div>
           </button>
 
@@ -123,8 +125,8 @@ export default function Sidebar({
               )}
             />
             <div className="flex flex-col items-start">
-              <span className="text-zinc-100">Private</span>
-              <span className="text-zinc-500">only visible to you</span>
+              <span className="text-zinc-100">Tersembunyi</span>
+              <span className="text-zinc-500">hanya terlihat oleh kamu</span>
             </div>
           </button>
         </div>
@@ -133,7 +135,7 @@ export default function Sidebar({
       {mode === "create" && (
         <div className="border-t border-t-zinc-800 pt-4">
           <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-            Before publishing
+            Sebelum menerbitkan
           </h3>
 
           <div className="flex flex-col gap-2">
@@ -159,7 +161,7 @@ export default function Sidebar({
       {mode === "edit" && (
         <textarea
           className="min-h-20 w-full rounded bg-zinc-900 p-3 text-xs text-zinc-100 outline-none"
-          placeholder="commit message"
+          placeholder="ringkasan perubahan (wajib diisi)"
           value={changeSummary}
           onChange={(e) => setChangeSummary(e.target.value)}
         />
@@ -170,7 +172,7 @@ export default function Sidebar({
         disabled={incompleteNote}
         className="cursor-pointer rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-teal-600"
       >
-        {mode === "create" ? "Publish" : "Commit"}
+        {mode === "create" ? "Terbitkan" : "Commit"}
       </button>
     </div>
   );

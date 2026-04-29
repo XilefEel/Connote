@@ -27,7 +27,7 @@ export default function Topbar() {
 
       <div className="relative w-1/2">
         <input
-          placeholder="Cari catatan, mata kuliah..."
+          placeholder="Cari catatan, mata kuliah, tag..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -47,7 +47,7 @@ export default function Topbar() {
           to="/note/new"
           className="flex items-center gap-1 rounded-lg bg-teal-600 px-3 py-1.5 text-xs text-white transition-colors hover:bg-teal-500"
         >
-          <Plus size={16} /> New Note
+          <Plus size={14} /> Catatan Baru
         </Link>
 
         <Link

@@ -48,21 +48,21 @@ export default function NoteCard({
       <div className="mt-auto flex flex-row gap-5 border-t border-zinc-700 pt-2 text-xs text-zinc-300">
         <div className="flex items-center gap-2 rounded transition-colors hover:text-zinc-200">
           <ThumbsUp size={12} />
-          {note.likes} {!compact && "likes"}
+          {note.likes} {!compact && "suka"}
         </div>
 
         <div className="flex items-center gap-2 rounded transition-colors hover:text-zinc-200">
           <MessageSquare size={12} />
-          {note.comments} {!compact && "comments"}
+          {note.comments} {!compact && "komentar"}
         </div>
 
         <div className="flex items-center gap-2 rounded transition-colors hover:text-zinc-200">
           <GitFork size={12} />
-          {note.forks} {!compact && "forked"}
+          {note.forks} {!compact && "fork"}
         </div>
 
         <div className="ml-auto flex items-center gap-2 rounded bg-teal-900 px-2 py-0.5 text-teal-100 transition-colors hover:text-zinc-200">
-          v{note.version} • {note.contributors} contributors
+          v{note.version} • {note.contributors} kontributor
         </div>
       </div>
     </div>

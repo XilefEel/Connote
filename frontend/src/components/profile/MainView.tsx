@@ -13,22 +13,22 @@ export default function MainView({
   openPrs: PullRequest[];
 }) {
   const [activeTab, setActiveTab] = useState<
-    "Notes" | "Forks" | "Pull Requests" | "Likes"
-  >("Notes");
+    "Catatan" | "Fork" | "Pull Requests" | "Suka"
+  >("Catatan");
 
   const tabs = [
     {
       Icon: Notebook,
-      label: "Notes",
+      label: "Catatan",
       value: notes.filter((n) => !n.forkedFrom).length,
     },
     {
       Icon: GitFork,
-      label: "Forks",
+      label: "Fork",
       value: notes.filter((n) => n.forkedFrom).length,
     },
     { Icon: GitPullRequest, label: "Pull Requests", value: openPrs.length },
-    { Icon: Heart, label: "Likes", value: 0 },
+    { Icon: Heart, label: "Suka", value: 0 },
   ];
 
   return (
@@ -39,7 +39,7 @@ export default function MainView({
             key={index}
             onClick={() =>
               setActiveTab(
-                tab.label as "Notes" | "Forks" | "Pull Requests" | "Likes",
+                tab.label as "Catatan" | "Fork" | "Pull Requests" | "Suka",
               )
             }
             className="group relative flex cursor-pointer flex-row items-center justify-center gap-1 rounded-lg px-4 text-xs font-semibold tracking-wide transition-colors"
@@ -71,12 +71,12 @@ export default function MainView({
       </div>
 
       <div className="flex flex-col gap-3">
-        {activeTab === "Notes" &&
+        {activeTab === "Catatan" &&
           notes
             .filter((n) => !n.forkedFrom)
             .map((note) => <NoteCard key={note.id} note={note} />)}
 
-        {activeTab === "Forks" &&
+        {activeTab === "Fork" &&
           notes
             .filter((n) => n.forkedFrom)
             .map((note) => <NoteCard key={note.id} note={note} />)}

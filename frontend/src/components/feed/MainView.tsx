@@ -16,9 +16,9 @@ export default function MainView({ notes }: { notes: Note[] }) {
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
           <h1 className="text-xl font-semibold text-white">
-            results for <span className="text-teal-400">"{query}"</span>
+            hasil untuk <span className="text-teal-400">"{query}"</span>
           </h1>
-          <p className="text-xs text-zinc-500">{notes.length} notes</p>
+          <p className="text-xs text-zinc-500">{notes.length} catatan</p>
         </div>
 
         <div className="flex flex-row items-center text-zinc-200 hover:text-zinc-100">

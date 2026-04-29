@@ -32,8 +32,8 @@ export const timeAgo = (time: string) => {
   const hours = Math.floor(mins / 60);
   const days = Math.floor(hours / 24);
 
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
-  if (hours < 24) return `${hours}h ago`;
-  return `${days}d ago`;
+  if (mins < 1) return "barusan";
+  if (mins < 60) return `${mins}m lalu`;
+  if (hours < 24) return `${hours}h lalu`;
+  return `${days}d lalu`;
 };

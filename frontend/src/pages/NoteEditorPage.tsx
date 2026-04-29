@@ -9,7 +9,7 @@ export default function NoteEditor({ mode }: { mode: "create" | "edit" }) {
   const user = getCurrentUser();
 
   const [note, setNote] = useState<NewNote>({
-    title: "New Note",
+    title: "Catatan Baru",
     description: "",
     content: "",
     author: user ? user.username : "John Doe",

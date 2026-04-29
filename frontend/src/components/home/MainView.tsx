@@ -17,7 +17,7 @@ export default function MainView() {
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-2">
-      <h1 className="text-2xl font-bold text-white">Explore Notes</h1>
+      <h1 className="text-2xl font-bold text-white">Jelajahi Catatan</h1>
 
       <div className="flex flex-col gap-3">
         {notes.map((note, index) => (

@@ -18,11 +18,11 @@ export default function Sidebar({
 }) {
   const stats = [
     {
-      label: "Notes",
+      label: "Catatan",
       value: notesCount,
     },
-    { label: "Followers", value: 12 },
-    { label: "PRs merged", value: 3 },
+    { label: "Pengikut", value: 12 },
+    { label: "PR digabung", value: 3 },
     { label: "Forks", value: 7 },
   ];
 
@@ -44,7 +44,7 @@ export default function Sidebar({
         </p>
 
         <button className="w-full cursor-pointer rounded-lg border border-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400 transition-colors hover:bg-zinc-900 hover:text-zinc-100">
-          Edit Profile
+          Ubah Profil
         </button>
       </div>
 
