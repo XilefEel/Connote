@@ -1,4 +1,4 @@
-import type { NewNote, Note, NoteVersion } from "../types/note";
+import type { NewNote, Note, NoteVersion, PullRequest } from "../types/note";
 import { BASE_URL } from "../utils";
 
 export const getNotes = async (params?: {
@@ -100,15 +100,17 @@ export const getNoteVersionsById = async (
   try {
     const response = await fetch(`${BASE_URL}/notes/${id}/versions`);
     if (!response.ok) throw new Error("Failed to fetch note versions");
-    const data = await response.json();
-    return data.versions;
+
+    return response.json();
   } catch (error) {
     console.error("Error fetching note versions:", error);
     throw error;
   }
 };
 
-export const getPullRequests = async (noteId: string) => {
+export const getPullRequests = async (
+  noteId: string,
+): Promise<PullRequest[]> => {
   const response = await fetch(`${BASE_URL}/notes/${noteId}/pull-requests`);
   if (!response.ok) throw new Error("Failed to fetch PRs");
 
@@ -122,7 +124,7 @@ export const submitPullRequest = async (
     title: string;
     content: string;
   },
-) => {
+): Promise<PullRequest> => {
   const response = await fetch(`${BASE_URL}/notes/${noteId}/pull-requests`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -136,7 +138,7 @@ export const submitPullRequest = async (
 export const updatePullRequest = async (
   prId: string,
   status: "merged" | "rejected",
-) => {
+): Promise<PullRequest> => {
   console.log("Updating PR with id:", prId, "to status:", status);
 
   const response = await fetch(`${BASE_URL}/notes/pull-requests/${prId}`, {
@@ -146,12 +148,5 @@ export const updatePullRequest = async (
   });
 
   if (!response.ok) throw new Error("Failed to update PR");
-  return response.json();
-};
-
-export const getUserFork = async (noteId: string, username: string) => {
-  const response = await fetch(`${BASE_URL}/notes/${noteId}/fork/${username}`);
-  if (!response.ok) throw new Error("Failed to check fork");
-
   return response.json();
 };

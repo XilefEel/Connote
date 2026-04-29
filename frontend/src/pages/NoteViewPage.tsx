@@ -49,7 +49,7 @@ export default function NotePage() {
       <Topbar />
       <div className="flex min-h-0 flex-1 items-stretch">
         <MainView note={note} editor={editor} />
-        <Sidebar note={note} />
+        <Sidebar note={note} setNote={setNote} editor={editor} />
       </div>
     </div>
   );

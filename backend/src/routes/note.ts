@@ -167,7 +167,6 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
   )
 
   // fork a note from id
-  // (create a new note with same content but different author)
   .post(
     "/:id/fork",
     async ({ params, body, set }) => {
@@ -227,6 +226,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
     },
   )
 
+  // update a note
   .patch(
     "/:id",
     async ({ params, body, set }) => {
@@ -280,15 +280,17 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
     },
   )
 
+  // get version history for a note
   .get("/:id/versions", async ({ params }) => {
     const versions = await db
       .select()
       .from(noteVersionsTable)
       .where(eq(noteVersionsTable.noteId, Number(params.id)));
 
-    return { versions };
+    return versions;
   })
 
+  // create pull request for a note
   .post(
     "/:id/pull-requests",
     async ({ params, body, set }) => {
@@ -316,7 +318,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         .returning()
         .get();
 
-      return { pullRequest: pr };
+      return pr;
     },
     {
       body: t.Object({
@@ -327,15 +329,17 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
     },
   )
 
+  // get pull requests for a note
   .get("/:id/pull-requests", async ({ params }) => {
     const prs = await db
       .select()
       .from(pullRequestsTable)
       .where(eq(pullRequestsTable.noteId, Number(params.id)));
 
-    return { pullRequests: prs };
+    return prs;
   })
 
+  // update pull request status
   .patch(
     "/pull-requests/:id",
     async ({ params, body, set }) => {
@@ -390,7 +394,7 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         .returning()
         .get();
 
-      return { pullRequest: updatedPR };
+      return updatedPR;
     },
     {
       body: t.Object({
@@ -403,19 +407,4 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         ),
       }),
     },
-  )
-
-  .get("/:id/fork/:username", async ({ params }) => {
-    const fork = db
-      .select()
-      .from(notesTable)
-      .where(
-        and(
-          eq(notesTable.forkedFrom, Number(params.id)),
-          eq(notesTable.author, params.username),
-        ),
-      )
-      .get();
-
-    return { fork: fork ?? null };
-  });
+  );

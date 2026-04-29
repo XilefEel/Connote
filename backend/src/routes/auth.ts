@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export const authRoutes = new Elysia({ prefix: "/auth" })
-
   .post(
     "/register",
     async ({ body, set }) => {
@@ -46,7 +45,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
 
       const { password, ...safeUser } = user;
 
-      return { user: safeUser };
+      return safeUser;
     },
     {
       body: t.Object({

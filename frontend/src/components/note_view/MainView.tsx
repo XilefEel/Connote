@@ -5,6 +5,7 @@ import { Editor, EditorContent } from "@tiptap/react";
 import type { Note } from "../../lib/types/note";
 import { useState } from "react";
 import ForkModal from "../modal/ForkModal";
+import { getCurrentUser } from "../../lib/api/auth";
 
 const comments = [
   {
@@ -54,6 +55,7 @@ export default function MainView({
   note: Note;
   editor: Editor;
 }) {
+  const user = getCurrentUser();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -68,12 +70,14 @@ export default function MainView({
       <div className="flex items-center gap-3">
         <h1 className="text-2xl font-bold text-zinc-100">{note.title}</h1>
 
-        <button onClick={handleEdit}>
-          <Pencil
-            size={20}
-            className="cursor-pointer text-zinc-500 transition-colors hover:text-zinc-200"
-          />
-        </button>
+        {user.username === note.author && (
+          <button onClick={handleEdit}>
+            <Pencil
+              size={20}
+              className="cursor-pointer text-zinc-500 transition-colors hover:text-zinc-200"
+            />
+          </button>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center gap-2 text-xs">

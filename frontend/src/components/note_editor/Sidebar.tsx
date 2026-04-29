@@ -102,7 +102,7 @@ export default function Sidebar({
             />
 
             <div className="flex flex-col items-start">
-              <span className="text-zinc-100">public</span>
+              <span className="text-zinc-100">Public</span>
               <span className="text-zinc-500">anyone can find and fork</span>
             </div>
           </button>
@@ -123,7 +123,7 @@ export default function Sidebar({
               )}
             />
             <div className="flex flex-col items-start">
-              <span className="text-zinc-100">private</span>
+              <span className="text-zinc-100">Private</span>
               <span className="text-zinc-500">only visible to you</span>
             </div>
           </button>

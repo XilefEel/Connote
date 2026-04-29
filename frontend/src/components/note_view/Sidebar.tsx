@@ -1,56 +1,30 @@
-import { Link } from "react-router-dom";
-import { cn, getContributors, timeAgo } from "../../lib/utils";
-import {
-  type NoteVersion,
-  type Note,
-  type PullRequest,
-} from "../../lib/types/note";
+import { type NoteVersion, type Note } from "../../lib/types/note";
 import { useEffect, useState } from "react";
-import {
-  getNoteById,
-  getNoteVersionsById,
-  getPullRequests,
-  updatePullRequest,
-} from "../../lib/api/note";
+import { getNoteById, getNoteVersionsById } from "../../lib/api/note";
 import PRSubmitModal from "../modal/PRSubmitModal";
 import { getCurrentUser } from "../../lib/api/auth";
+import type { Editor } from "@tiptap/react";
+import Contributors from "./Contributors";
+import VersionHistory from "./VersionHistory";
+import ForkedFrom from "./ForkedFrom";
+import PullRequests from "./PullRequests";
 
-const notableForks = [
-  {
-    id: 30,
-    author: "Eve",
-    title: "heaps & PQ edition",
-    likes: 5,
-    version: "v1.0",
-  },
-  {
-    id: 31,
-    author: "Frank",
-    title: "AVL trees added",
-    likes: 3,
-    version: "v1.0",
-  },
-];
-
-export default function Sidebar({ note }: { note: Note }) {
+export default function Sidebar({
+  note,
+  setNote,
+  editor,
+}: {
+  note: Note;
+  setNote: (note: Note) => void;
+  editor: Editor;
+}) {
   const user = getCurrentUser();
 
+  const [originalNote, setOriginalNote] = useState<Note | null>(null);
+  const [showPRModal, setShowPRModal] = useState(false);
   const [versionHistory, setVersionHistory] = useState<NoteVersion[]>(
     [] as NoteVersion[],
   );
-
-  const contributors = getContributors(versionHistory);
-  const [originalNote, setOriginalNote] = useState<Note | null>(null);
-  const [showPRModal, setShowPRModal] = useState(false);
-  const [prs, setPrs] = useState<PullRequest[]>([]);
-
-  const handleMerge = async (prId: number) => {
-    await updatePullRequest(prId.toString(), "merged");
-  };
-
-  const handleReject = async (prId: number) => {
-    await updatePullRequest(prId.toString(), "rejected");
-  };
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -72,10 +46,6 @@ export default function Sidebar({ note }: { note: Note }) {
     fetchOriginalNote();
   }, [note.forkedFrom]);
 
-  useEffect(() => {
-    getPullRequests(String(note.id)).then((data) => setPrs(data.pullRequests));
-  }, [note.id]);
-
   return (
     <div className="flex h-full w-64 flex-col gap-4 overflow-y-auto border-l border-l-zinc-700 p-3 px-5">
       <div>
@@ -90,183 +60,20 @@ export default function Sidebar({ note }: { note: Note }) {
         </p>
       </div>
 
-      <div className="border-t border-t-zinc-800 pt-4">
-        <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-          Contributors
-        </h3>
+      <Contributors versionHistory={versionHistory} />
 
-        <div className="flex flex-col gap-2">
-          {contributors.map((c, index) => (
-            <div key={index} className="flex items-center gap-3 rounded px-3">
-              <div className="flex size-6 items-center justify-center rounded-full bg-teal-500 text-xs font-semibold text-white">
-                {c.pfp}
-              </div>
+      <VersionHistory versionHistory={versionHistory} />
 
-              <Link
-                to={`/profile/${c.username}`}
-                className="text-sm font-medium text-zinc-300 hover:text-teal-400"
-              >
-                {c.username}
-              </Link>
-
-              <span className="ml-auto text-xs text-zinc-500">
-                {c.edits} {c.edits > 1 ? "edits" : "edit"}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t border-t-zinc-800 pt-4">
-        <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-          Version History
-        </h3>
-
-        <div className="flex flex-col gap-2">
-          {versionHistory.map((version, index) => (
-            <div className="flex items-center gap-3 rounded px-3" key={index}>
-              <div
-                className={cn(
-                  "flex size-4 items-center justify-center rounded-full text-xs font-semibold text-zinc-300",
-                  index === 0
-                    ? "border-2 border-teal-400 bg-teal-700"
-                    : "bg-zinc-700",
-                )}
-              />
-
-              <div className="flex flex-col rounded tracking-wide">
-                <span
-                  className={cn(
-                    "text-sm font-medium text-zinc-300",
-                    index === 0 && "font-semibold text-teal-400",
-                  )}
-                >
-                  v{version.version} {index === 0 && "- current"}
-                </span>
-
-                <span className="text-xs text-zinc-500">
-                  <Link
-                    to={`/profile/${version.author}`}
-                    className="hover:text-teal-400"
-                  >
-                    {version.author}
-                  </Link>{" "}
-                  • {timeAgo(version.createdAt)}
-                </span>
-
-                <span className="truncate text-xs text-zinc-500">
-                  {version.changeSummary}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t border-t-zinc-800 pt-4">
-        <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-          Forked From
-        </h3>
-
-        <p className="flex flex-col text-xs font-semibold text-zinc-600">
-          <span>
-            {originalNote
-              ? `This note is a fork of ${originalNote?.title}.`
-              : "this is an original note"}
-          </span>
-
-          {originalNote && (
-            <span>
-              <Link
-                to={`/note/${note.forkedFrom}`}
-                className="text-teal-500 hover:text-teal-400"
-              >
-                View original
-              </Link>
-            </span>
-          )}
-
-          {note.forkedFrom && (
-            <button
-              onClick={() => setShowPRModal(true)}
-              className="mt-3 cursor-pointer rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-teal-600"
-            >
-              Submit PR
-            </button>
-          )}
-        </p>
-      </div>
+      <ForkedFrom
+        note={note}
+        originalNote={originalNote}
+        setShowPRModal={setShowPRModal}
+        user={user}
+      />
 
       {user.username === note.author && (
-        <div className="border-t border-t-zinc-800 pt-4">
-          <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-            Open Pull Requests
-          </h3>
-
-          {prs.length === 0 ? (
-            <p className="text-xs text-zinc-600">No open pull requests</p>
-          ) : (
-            <div className="flex flex-col gap-2">
-              {prs
-                .filter((pr) => pr.status === "open")
-                .map((pr) => (
-                  <div
-                    key={pr.id}
-                    className="flex flex-col gap-1 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2"
-                  >
-                    <p className="text-sm text-zinc-200">{pr.title}</p>
-                    <p className="text-xs text-zinc-500">
-                      by {pr.author} · {pr.createdAt.slice(0, 10)}
-                    </p>
-
-                    <div className="mt-1 flex gap-2">
-                      <button
-                        onClick={() => handleReject(pr.id)}
-                        className="flex-1 rounded border border-zinc-700 py-1 text-xs text-zinc-400 hover:text-zinc-200"
-                      >
-                        Reject
-                      </button>
-
-                      <button
-                        onClick={() => handleMerge(pr.id)}
-                        className="flex-1 rounded bg-teal-600 py-1 text-xs text-white hover:bg-teal-500"
-                      >
-                        Merge
-                      </button>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          )}
-        </div>
+        <PullRequests note={note} setNote={setNote} editor={editor} />
       )}
-
-      <div className="border-t border-t-zinc-800 pt-4">
-        <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-          Notable Forks
-        </h3>
-
-        <div className="flex flex-col gap-2">
-          {notableForks.map((fork, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-0.5 rounded-lg border border-zinc-800 bg-zinc-900 px-2 py-1 text-xs"
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-teal-500">{fork.author}</span>
-                <span className="text-zinc-600">•</span>
-                <span className="text-zinc-300">{fork.title}</span>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs tracking-wide text-zinc-600">
-                <span>{fork.likes} likes</span>
-                <span>•</span>
-                <span> {fork.version}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {originalNote && showPRModal && (
         <PRSubmitModal
