@@ -15,12 +15,12 @@ export default function NoteCard({
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row gap-2">
           {note.tags.map((tag, index) => (
-            <div
+            <span
               key={index}
-              className="flex items-center gap-2 rounded-full bg-teal-800 px-2 py-px transition-colors hover:text-zinc-200"
+              className="flex items-center gap-2 rounded-full bg-teal-800 px-2 py-px text-xs text-teal-100"
             >
-              <span className="text-xs text-teal-100">{tag}</span>
-            </div>
+              {tag}
+            </span>
           ))}
         </div>
 

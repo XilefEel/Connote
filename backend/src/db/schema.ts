@@ -59,3 +59,15 @@ export const noteVersionsTable = sqliteTable("note_versions", {
   author: text("author").notNull(),
   createdAt: text("created_at").notNull().default(new Date().toISOString()),
 });
+
+export const pullRequestsTable = sqliteTable("pull_requests", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  noteId: integer("note_id")
+    .notNull()
+    .references(() => notesTable.id),
+  author: text("author").notNull(),
+  title: text("title").notNull(),
+  content: text("description").notNull().default(""),
+  status: text("status").notNull().default("open"),
+  createdAt: text("created_at").notNull().default(new Date().toISOString()),
+});

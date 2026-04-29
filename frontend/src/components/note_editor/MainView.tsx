@@ -65,11 +65,11 @@ export default function MainView({
       />
 
       <div className="flex flex-wrap items-center gap-2 text-xs">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1">
           {note.tags.map((tag) => (
             <span
               key={tag}
-              className="flex items-center gap-1 rounded-full bg-teal-500 px-3 py-0.5 text-xs text-teal-50"
+              className="flex items-center gap-1 rounded-full bg-teal-800 px-2 py-px text-xs text-teal-100"
             >
               {tag}
               <XIcon

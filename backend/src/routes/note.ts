@@ -5,8 +5,9 @@ import {
   tagsTable,
   noteTagsTable,
   noteVersionsTable,
+  pullRequestsTable,
 } from "../db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 // get all tags for a note
 export const getNoteTags = async (noteId: number) => {
@@ -286,4 +287,135 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
       .where(eq(noteVersionsTable.noteId, Number(params.id)));
 
     return { versions };
+  })
+
+  .post(
+    "/:id/pull-requests",
+    async ({ params, body, set }) => {
+      const original = db
+        .select()
+        .from(notesTable)
+        .where(eq(notesTable.id, Number(params.id)))
+        .get();
+
+      if (!original) {
+        set.status = 404;
+        return { message: "Note not found" };
+      }
+
+      const pr = db
+        .insert(pullRequestsTable)
+        .values({
+          noteId: Number(params.id),
+          author: body.author,
+          title: body.title,
+          content: body.content,
+          status: "open",
+          createdAt: new Date().toISOString(),
+        })
+        .returning()
+        .get();
+
+      return { pullRequest: pr };
+    },
+    {
+      body: t.Object({
+        author: t.String(),
+        title: t.String(),
+        content: t.String(),
+      }),
+    },
+  )
+
+  .get("/:id/pull-requests", async ({ params }) => {
+    const prs = await db
+      .select()
+      .from(pullRequestsTable)
+      .where(eq(pullRequestsTable.noteId, Number(params.id)));
+
+    return { pullRequests: prs };
+  })
+
+  .patch(
+    "/pull-requests/:id",
+    async ({ params, body, set }) => {
+      console.log("Updating PR with id:", params.id, "and body:", body);
+
+      const pr = db
+        .select()
+        .from(pullRequestsTable)
+        .where(eq(pullRequestsTable.id, Number(params.id)))
+        .get();
+
+      if (!pr) {
+        set.status = 404;
+        return { message: "Pull request not found" };
+      }
+
+      if (body.status === "merged") {
+        const original = db
+          .select()
+          .from(notesTable)
+          .where(eq(notesTable.id, pr.noteId))
+          .get();
+
+        if (original) {
+          const [major, minor] = original.version.split(".").map(Number);
+          const newVersion = `${major}.${minor + 1}`;
+
+          const updated = db
+            .update(notesTable)
+            .set({
+              content: pr.content,
+              version: newVersion,
+              updatedAt: new Date().toISOString(),
+            })
+            .where(eq(notesTable.id, pr.noteId))
+            .returning()
+            .get();
+
+          await createVersion(
+            updated.id,
+            updated.version,
+            pr.author,
+            `Merged PR: ${pr.title}`,
+          );
+        }
+      }
+
+      const updatedPR = db
+        .update(pullRequestsTable)
+        .set({ status: body.status })
+        .where(eq(pullRequestsTable.id, Number(params.id)))
+        .returning()
+        .get();
+
+      return { pullRequest: updatedPR };
+    },
+    {
+      body: t.Object({
+        status: t.Optional(
+          t.Union([
+            t.Literal("open"),
+            t.Literal("closed"),
+            t.Literal("merged"),
+          ]),
+        ),
+      }),
+    },
+  )
+
+  .get("/:id/fork/:username", async ({ params }) => {
+    const fork = db
+      .select()
+      .from(notesTable)
+      .where(
+        and(
+          eq(notesTable.forkedFrom, Number(params.id)),
+          eq(notesTable.author, params.username),
+        ),
+      )
+      .get();
+
+    return { fork: fork ?? null };
   });

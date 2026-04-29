@@ -1,8 +1,19 @@
 import { Link } from "react-router-dom";
 import { cn, getContributors, timeAgo } from "../../lib/utils";
-import { type NoteVersion, type Note } from "../../lib/types/note";
+import {
+  type NoteVersion,
+  type Note,
+  type PullRequest,
+} from "../../lib/types/note";
 import { useEffect, useState } from "react";
-import { getNoteVersionsById } from "../../lib/api/note";
+import {
+  getNoteById,
+  getNoteVersionsById,
+  getPullRequests,
+  updatePullRequest,
+} from "../../lib/api/note";
+import PRSubmitModal from "../modal/PRSubmitModal";
+import { getCurrentUser } from "../../lib/api/auth";
 
 const notableForks = [
   {
@@ -21,12 +32,25 @@ const notableForks = [
   },
 ];
 
-export default function SidebarLeft({ note }: { note: Note }) {
+export default function Sidebar({ note }: { note: Note }) {
+  const user = getCurrentUser();
+
   const [versionHistory, setVersionHistory] = useState<NoteVersion[]>(
     [] as NoteVersion[],
   );
 
   const contributors = getContributors(versionHistory);
+  const [originalNote, setOriginalNote] = useState<Note | null>(null);
+  const [showPRModal, setShowPRModal] = useState(false);
+  const [prs, setPrs] = useState<PullRequest[]>([]);
+
+  const handleMerge = async (prId: number) => {
+    await updatePullRequest(prId.toString(), "merged");
+  };
+
+  const handleReject = async (prId: number) => {
+    await updatePullRequest(prId.toString(), "rejected");
+  };
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -35,6 +59,21 @@ export default function SidebarLeft({ note }: { note: Note }) {
     };
 
     fetchNote();
+  }, [note.id]);
+
+  useEffect(() => {
+    const fetchOriginalNote = async () => {
+      if (note.forkedFrom) {
+        const data = await getNoteById(String(note.forkedFrom));
+        setOriginalNote(data);
+      }
+    };
+
+    fetchOriginalNote();
+  }, [note.forkedFrom]);
+
+  useEffect(() => {
+    getPullRequests(String(note.id)).then((data) => setPrs(data.pullRequests));
   }, [note.id]);
 
   return (
@@ -129,12 +168,78 @@ export default function SidebarLeft({ note }: { note: Note }) {
           Forked From
         </h3>
 
-        <p className="text-xs font-semibold text-zinc-600">
-          {note.forkedFrom
-            ? `This note is a fork of id:${note.forkedFrom}.`
-            : "this is an original note"}
+        <p className="flex flex-col text-xs font-semibold text-zinc-600">
+          <span>
+            {originalNote
+              ? `This note is a fork of ${originalNote?.title}.`
+              : "this is an original note"}
+          </span>
+
+          {originalNote && (
+            <span>
+              <Link
+                to={`/note/${note.forkedFrom}`}
+                className="text-teal-500 hover:text-teal-400"
+              >
+                View original
+              </Link>
+            </span>
+          )}
+
+          {note.forkedFrom && (
+            <button
+              onClick={() => setShowPRModal(true)}
+              className="mt-3 cursor-pointer rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-teal-600"
+            >
+              Submit PR
+            </button>
+          )}
         </p>
       </div>
+
+      {user.username === note.author && (
+        <div className="border-t border-t-zinc-800 pt-4">
+          <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
+            Open Pull Requests
+          </h3>
+
+          {prs.length === 0 ? (
+            <p className="text-xs text-zinc-600">No open pull requests</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {prs
+                .filter((pr) => pr.status === "open")
+                .map((pr) => (
+                  <div
+                    key={pr.id}
+                    className="flex flex-col gap-1 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2"
+                  >
+                    <p className="text-sm text-zinc-200">{pr.title}</p>
+                    <p className="text-xs text-zinc-500">
+                      by {pr.author} · {pr.createdAt.slice(0, 10)}
+                    </p>
+
+                    <div className="mt-1 flex gap-2">
+                      <button
+                        onClick={() => handleReject(pr.id)}
+                        className="flex-1 rounded border border-zinc-700 py-1 text-xs text-zinc-400 hover:text-zinc-200"
+                      >
+                        Reject
+                      </button>
+
+                      <button
+                        onClick={() => handleMerge(pr.id)}
+                        className="flex-1 rounded bg-teal-600 py-1 text-xs text-white hover:bg-teal-500"
+                      >
+                        Merge
+                      </button>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="border-t border-t-zinc-800 pt-4">
         <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
@@ -162,6 +267,14 @@ export default function SidebarLeft({ note }: { note: Note }) {
           ))}
         </div>
       </div>
+
+      {originalNote && showPRModal && (
+        <PRSubmitModal
+          note={originalNote}
+          userFork={note}
+          onClose={() => setShowPRModal(false)}
+        />
+      )}
     </div>
   );
 }

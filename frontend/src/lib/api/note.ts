@@ -107,3 +107,51 @@ export const getNoteVersionsById = async (
     throw error;
   }
 };
+
+export const getPullRequests = async (noteId: string) => {
+  const response = await fetch(`${BASE_URL}/notes/${noteId}/pull-requests`);
+  if (!response.ok) throw new Error("Failed to fetch PRs");
+
+  return response.json();
+};
+
+export const submitPullRequest = async (
+  noteId: string,
+  body: {
+    author: string;
+    title: string;
+    content: string;
+  },
+) => {
+  const response = await fetch(`${BASE_URL}/notes/${noteId}/pull-requests`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) throw new Error("Failed to submit PR");
+  return response.json();
+};
+
+export const updatePullRequest = async (
+  prId: string,
+  status: "merged" | "rejected",
+) => {
+  console.log("Updating PR with id:", prId, "to status:", status);
+
+  const response = await fetch(`${BASE_URL}/notes/pull-requests/${prId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+
+  if (!response.ok) throw new Error("Failed to update PR");
+  return response.json();
+};
+
+export const getUserFork = async (noteId: string, username: string) => {
+  const response = await fetch(`${BASE_URL}/notes/${noteId}/fork/${username}`);
+  if (!response.ok) throw new Error("Failed to check fork");
+
+  return response.json();
+};

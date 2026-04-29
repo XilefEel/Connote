@@ -77,10 +77,10 @@ export default function MainView({
       </div>
 
       <div className="flex flex-wrap items-center gap-2 text-xs">
-        {note.tags.map((tag) => (
+        {note.tags.map((tag, index) => (
           <span
-            key={tag}
-            className="rounded-full bg-teal-500 px-3 py-0.5 text-teal-50"
+            key={index}
+            className="flex items-center gap-2 rounded-full bg-teal-800 px-2 py-px text-xs text-teal-100"
           >
             {tag}
           </span>

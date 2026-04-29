@@ -28,3 +28,13 @@ export type NoteVersion = {
   author: string;
   createdAt: string;
 };
+
+export type PullRequest = {
+  id: number;
+  noteId: number;
+  author: string;
+  title: string;
+  content: string;
+  status: "open" | "merged" | "rejected";
+  createdAt: string;
+};
