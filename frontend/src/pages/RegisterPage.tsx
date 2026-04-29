@@ -39,11 +39,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-1 items-center justify-center bg-gray-950">
+    <div className="flex min-h-screen flex-1 items-center justify-center bg-zinc-950">
       <div className="w-full max-w-md">
         <h1 className="mb-1 text-2xl font-bold text-white">Buat Akun Baru</h1>
 
-        <p className="mb-8 text-sm text-gray-400">
+        <p className="mb-8 text-sm text-zinc-400">
           Mulai berkontribusi untuk komunitasmu.
         </p>
 
@@ -51,7 +51,7 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <div className="mb-1.5 flex items-center gap-2 text-sm text-gray-400">
+            <div className="mb-1.5 flex items-center gap-2 text-sm text-zinc-400">
               <User2 size={16} />
               <p>Username</p>
             </div>
@@ -62,12 +62,12 @@ export default function RegisterPage() {
               value={form.username}
               onChange={(e) => setForm({ ...form, username: e.target.value })}
               required
-              className="w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-sm text-white placeholder-gray-600 transition-colors outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-white placeholder-zinc-600 transition-colors outline-none focus:border-teal-500"
             />
           </div>
 
           <div>
-            <div className="mb-1.5 flex items-center gap-2 text-sm text-gray-400">
+            <div className="mb-1.5 flex items-center gap-2 text-sm text-zinc-400">
               <Mail size={16} />
               <p>Email</p>
             </div>
@@ -78,12 +78,12 @@ export default function RegisterPage() {
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
-              className="w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-sm text-white placeholder-gray-600 transition-colors outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-white placeholder-zinc-600 transition-colors outline-none focus:border-teal-500"
             />
           </div>
 
           <div>
-            <div className="mb-1.5 flex items-center gap-2 text-sm text-gray-400">
+            <div className="mb-1.5 flex items-center gap-2 text-sm text-zinc-400">
               <KeyRound size={16} />
               <p>Password</p>
             </div>
@@ -95,13 +95,13 @@ export default function RegisterPage() {
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
-                className="w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 pr-12 text-sm text-white placeholder-gray-600 transition-colors outline-none focus:border-blue-500"
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2 pr-12 text-sm text-white placeholder-zinc-600 transition-colors outline-none focus:border-teal-500"
               />
 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-300"
+                className="absolute top-1/2 right-4 -translate-y-1/2 text-zinc-500 transition-colors hover:text-zinc-300"
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -111,7 +111,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-2 font-semibold text-white transition-all hover:bg-blue-500"
+            className="mt-3 flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-teal-600 py-2 font-semibold text-white transition-all hover:bg-teal-500"
           >
             {loading ? (
               <div className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
@@ -123,11 +123,11 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm text-zinc-500">
           Sudah punya akun?{" "}
           <Link
             to="/login"
-            className="text-blue-400 transition-colors hover:text-blue-300"
+            className="text-teal-400 transition-colors hover:text-teal-300"
           >
             Masuk di sini
           </Link>

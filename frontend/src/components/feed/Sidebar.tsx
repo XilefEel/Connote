@@ -38,9 +38,9 @@ export default function Sidebar({
   setMinContributors: (contributors: number | null) => void;
 }) {
   return (
-    <div className="flex h-full w-64 flex-col gap-7 border-r border-r-gray-700 p-3 text-gray-300">
+    <div className="flex h-full w-64 flex-col gap-7 border-r border-r-zinc-700 p-3 text-zinc-300">
       <div className="flex w-full flex-col gap-1 text-sm">
-        <p className="px-3 text-xs font-bold tracking-wide text-gray-600 uppercase">
+        <p className="px-3 text-xs font-bold tracking-wide text-zinc-600 uppercase">
           Sort by
         </p>
 
@@ -50,9 +50,9 @@ export default function Sidebar({
               key={option.sortKey}
               onClick={() => setSort(option.sortKey)}
               className={cn(
-                "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white",
+                "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-zinc-900 hover:text-white",
                 sort === option.sortKey &&
-                  "bg-gray-900 font-semibold text-white",
+                  "bg-zinc-900 font-semibold text-white",
               )}
             >
               {option.Icon && <option.Icon size={16} />}
@@ -63,7 +63,7 @@ export default function Sidebar({
       </div>
 
       <div className="flex w-full flex-col gap-1 text-sm">
-        <p className="px-3 text-xs font-bold tracking-wide text-gray-600 uppercase">
+        <p className="px-3 text-xs font-bold tracking-wide text-zinc-600 uppercase">
           Forks
         </p>
 
@@ -73,9 +73,9 @@ export default function Sidebar({
               key={option.label}
               onClick={() => setMinForks(option.value)}
               className={cn(
-                "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white",
+                "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-zinc-900 hover:text-white",
                 minForks === option.value &&
-                  "bg-gray-900 font-semibold text-white",
+                  "bg-zinc-900 font-semibold text-white",
               )}
             >
               {option.label}
@@ -85,7 +85,7 @@ export default function Sidebar({
       </div>
 
       <div className="flex w-full flex-col gap-1 text-sm">
-        <p className="px-3 text-xs font-bold tracking-wide text-gray-600 uppercase">
+        <p className="px-3 text-xs font-bold tracking-wide text-zinc-600 uppercase">
           Contributors
         </p>
 
@@ -95,9 +95,9 @@ export default function Sidebar({
               key={option.label}
               onClick={() => setMinContributors(option.value)}
               className={cn(
-                "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-gray-900 hover:text-white",
+                "flex cursor-pointer items-center gap-2 truncate rounded-lg px-3 py-1 transition-colors hover:bg-zinc-900 hover:text-white",
                 minContributors === option.value &&
-                  "bg-gray-900 font-semibold text-white",
+                  "bg-zinc-900 font-semibold text-white",
               )}
             >
               {option.label}

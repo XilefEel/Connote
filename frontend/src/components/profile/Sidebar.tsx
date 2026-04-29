@@ -28,23 +28,23 @@ export default function SidebarLeft({
   ];
 
   return (
-    <div className="flex h-full w-64 flex-col gap-10 border-r border-r-gray-700 p-3 px-5">
+    <div className="flex h-full w-64 flex-col gap-10 border-r border-r-zinc-700 p-3 px-5">
       <div className="flex flex-col items-center gap-2">
-        <div className="flex size-16 items-center justify-center rounded-full bg-blue-500 text-xl font-bold text-white uppercase">
+        <div className="flex size-16 items-center justify-center rounded-full bg-teal-500 text-xl font-bold text-white uppercase">
           {user.username.slice(0, 2)}
         </div>
 
         <div>
-          <h2 className="font-semibold text-gray-200">{user.username}</h2>
-          <p className="text-xs text-gray-600">@{user.username}</p>
+          <h2 className="font-semibold text-zinc-200">{user.username}</h2>
+          <p className="text-xs text-zinc-600">@{user.username}</p>
         </div>
 
-        <p className="text-center text-xs text-gray-400">
+        <p className="text-center text-xs text-zinc-400">
           CS student @ NUS. Notes on algorithms, data structures & calculus.
           Open to collabs.
         </p>
 
-        <button className="w-full cursor-pointer rounded-lg border border-gray-800 px-3 py-1 text-xs font-medium text-gray-400 transition-colors hover:bg-gray-900 hover:text-gray-100">
+        <button className="w-full cursor-pointer rounded-lg border border-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400 transition-colors hover:bg-zinc-900 hover:text-zinc-100">
           edit profile
         </button>
       </div>
@@ -53,18 +53,18 @@ export default function SidebarLeft({
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="flex flex-col items-center rounded-lg border border-gray-800 bg-gray-900 px-3 py-2"
+            className="flex flex-col items-center rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2"
           >
-            <span className="text-lg font-semibold text-gray-200">
+            <span className="text-lg font-semibold text-zinc-200">
               {stat.value}
             </span>
-            <span className="text-xs text-gray-500">{stat.label}</span>
+            <span className="text-xs text-zinc-500">{stat.label}</span>
           </div>
         ))}
       </div>
 
       <div>
-        <h3 className="mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+        <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
           Badges
         </h3>
 

@@ -25,7 +25,7 @@ export default function MainView({
 
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
-      <div className="flex flex-row gap-8 border-b border-gray-700 pb-2">
+      <div className="flex flex-row gap-8 border-b border-zinc-700 pb-2">
         {tabs.map((tab, index) => (
           <div
             key={index}
@@ -34,17 +34,17 @@ export default function MainView({
           >
             <span
               className={cn(
-                "text-gray-300 transition-colors group-hover:text-white",
+                "text-zinc-300 transition-colors group-hover:text-white",
                 activeTab === index && "text-white",
               )}
             >
               {tab.label}
             </span>
 
-            <span className="text-gray-500">({tab.value})</span>
+            <span className="text-zinc-500">({tab.value})</span>
 
             {activeTab === index && (
-              <div className="absolute -bottom-2 h-0.5 w-full bg-blue-500" />
+              <div className="absolute -bottom-2 h-0.5 w-full bg-teal-500" />
             )}
           </div>
         ))}

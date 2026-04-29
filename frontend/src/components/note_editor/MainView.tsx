@@ -58,7 +58,7 @@ export default function MainView({
   return (
     <div className="flex h-full flex-1 flex-col gap-3 overflow-y-auto px-5 py-3">
       <input
-        className="text-2xl font-bold text-gray-100 placeholder-gray-600 outline-none"
+        className="text-2xl font-bold text-zinc-100 placeholder-zinc-600 outline-none"
         placeholder="note title..."
         value={note.title}
         onChange={(e) => setNote({ ...note, title: e.target.value })}
@@ -69,19 +69,19 @@ export default function MainView({
           {note.tags.map((tag) => (
             <span
               key={tag}
-              className="flex items-center gap-1 rounded-full bg-blue-500 px-3 py-0.5 text-xs text-blue-50"
+              className="flex items-center gap-1 rounded-full bg-teal-500 px-3 py-0.5 text-xs text-teal-50"
             >
               {tag}
               <XIcon
                 size={12}
                 onClick={() => removeTag(tag)}
-                className="cursor-pointer text-blue-200 transition-colors hover:text-blue-50"
+                className="cursor-pointer text-teal-200 transition-colors hover:text-teal-50"
               />
             </span>
           ))}
 
           <input
-            className="rounded border border-gray-800 px-3 py-1 text-xs text-gray-100 outline-none"
+            className="rounded border border-zinc-800 px-3 py-1 text-xs text-zinc-100 outline-none"
             placeholder="Add tag..."
             onKeyDown={handleAddTag}
           />
@@ -92,7 +92,7 @@ export default function MainView({
 
       <EditorContent
         editor={editor}
-        className="prose prose-invert max-w-none flex-1 rounded bg-gray-900 p-4 text-gray-100 [&_.ProseMirror]:min-h-100 [&_.ProseMirror]:outline-none"
+        className="prose prose-invert max-w-none flex-1 rounded bg-zinc-900 p-4 text-zinc-100 [&_.ProseMirror]:min-h-100 [&_.ProseMirror]:outline-none"
       />
     </div>
   );

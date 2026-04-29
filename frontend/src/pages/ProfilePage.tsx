@@ -22,7 +22,7 @@ export default function Home() {
   }, [username]);
 
   return (
-    <div className="flex h-screen flex-col bg-gray-950">
+    <div className="flex h-screen flex-col bg-zinc-950">
       <Topbar />
       <div className="flex min-h-0 flex-1 items-stretch">
         <Sidebar user={user} notes={notes} />

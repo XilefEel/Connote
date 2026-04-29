@@ -51,8 +51,8 @@ export default function Toolbar({ editor }: { editor: Editor }) {
   });
 
   return (
-    <div className="flex flex-wrap gap-1 rounded bg-gray-900 px-3 py-2 text-xs text-gray-400">
-      <div className="flex gap-1.5 border-r border-gray-700 pr-2 last:border-none last:pr-0">
+    <div className="flex flex-wrap gap-1 rounded bg-zinc-900 px-3 py-2 text-xs text-zinc-400">
+      <div className="flex gap-1.5 border-r border-zinc-700 pr-2 last:border-none last:pr-0">
         <ToolbarButton
           Icon={Undo}
           onClick={() => editor.chain().focus().undo().run()}
@@ -63,7 +63,7 @@ export default function Toolbar({ editor }: { editor: Editor }) {
         />
       </div>
 
-      <div className="flex gap-1.5 border-r border-gray-700 pr-2 last:border-none last:pr-0">
+      <div className="flex gap-1.5 border-r border-zinc-700 pr-2 last:border-none last:pr-0">
         <ToolbarButton
           Icon={Heading1}
           active={isH1}
@@ -102,7 +102,7 @@ export default function Toolbar({ editor }: { editor: Editor }) {
         />
       </div>
 
-      <div className="flex gap-1.5 border-r border-gray-700 pr-2 last:border-none last:pr-0">
+      <div className="flex gap-1.5 border-r border-zinc-700 pr-2 last:border-none last:pr-0">
         <ToolbarButton
           Icon={Bold}
           active={isBold}

@@ -16,19 +16,19 @@ export default function MainView({ notes }: { notes: Note[] }) {
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
           <h1 className="text-xl font-semibold text-white">
-            results for <span className="text-blue-400">"{query}"</span>
+            results for <span className="text-teal-400">"{query}"</span>
           </h1>
-          <p className="text-xs text-gray-500">{notes.length} notes</p>
+          <p className="text-xs text-zinc-500">{notes.length} notes</p>
         </div>
 
-        <div className="flex flex-row items-center text-gray-200 hover:text-gray-100">
+        <div className="flex flex-row items-center text-zinc-200 hover:text-zinc-100">
           <button
             onClick={() => setViewMode("list")}
             className={cn(
               "cursor-pointer rounded-l p-2 transition-colors",
               viewMode === "list"
-                ? "bg-blue-500 hover:bg-blue-400"
-                : "bg-gray-800 hover:bg-gray-700",
+                ? "bg-teal-500 hover:bg-teal-400"
+                : "bg-zinc-800 hover:bg-zinc-700",
             )}
           >
             <Menu size={16} />
@@ -39,8 +39,8 @@ export default function MainView({ notes }: { notes: Note[] }) {
             className={cn(
               "cursor-pointer rounded-r p-2 transition-colors",
               viewMode === "grid"
-                ? "bg-blue-500 hover:bg-blue-400"
-                : "bg-gray-800 hover:bg-gray-700",
+                ? "bg-teal-500 hover:bg-teal-400"
+                : "bg-zinc-800 hover:bg-zinc-700",
             )}
           >
             <Grid2X2 size={16} />

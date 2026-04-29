@@ -17,8 +17,8 @@ export default function ToolbarButton({
       className={cn(
         "rounded p-1 transition-colors",
         active
-          ? "bg-blue-500 text-green-100"
-          : "text-gray-400 hover:bg-gray-800 hover:text-gray-100",
+          ? "bg-teal-500 text-green-100"
+          : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100",
       )}
     >
       <Icon size={16} />
