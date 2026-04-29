@@ -25,7 +25,13 @@ export default function NoteCard({
         </div>
 
         <span className="text-xs text-zinc-500">
-          {note.author} • {timeAgo(note.updatedAt)}
+          <Link
+            to={`/profile/${note.author}`}
+            className="transition-colors hover:text-teal-400"
+          >
+            {note.author}{" "}
+          </Link>
+          • {timeAgo(note.updatedAt)}
         </span>
       </div>
 

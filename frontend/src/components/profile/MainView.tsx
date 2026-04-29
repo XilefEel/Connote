@@ -3,6 +3,7 @@ import NoteCard from "../NoteCard";
 import { cn } from "../../lib/utils";
 import type { Note } from "../../lib/types/note";
 import type { User } from "../../lib/types/user";
+import { Notebook, GitFork, GitPullRequest, Heart } from "lucide-react";
 
 export default function MainView({
   user,
@@ -15,12 +16,13 @@ export default function MainView({
 
   const tabs = [
     {
-      label: "my notes",
+      Icon: Notebook,
+      label: "Notes",
       value: notes.filter((note) => note.author === user.username).length,
     },
-    { label: "forks", value: 19 },
-    { label: "pull requests", value: 8 },
-    { label: "likes", value: 15 },
+    { Icon: GitFork, label: "Forks", value: 19 },
+    { Icon: GitPullRequest, label: "Pull Requests", value: 8 },
+    { Icon: Heart, label: "Likes", value: 15 },
   ];
 
   return (
@@ -32,6 +34,14 @@ export default function MainView({
             onClick={() => setActiveTab(index)}
             className="group relative flex cursor-pointer flex-row items-center justify-center gap-1 rounded-lg px-4 text-xs font-semibold tracking-wide transition-colors"
           >
+            <tab.Icon
+              className={cn(
+                "text-zinc-300 transition-colors group-hover:text-white",
+                activeTab === index && "text-white",
+              )}
+              size={14}
+            />
+
             <span
               className={cn(
                 "text-zinc-300 transition-colors group-hover:text-white",

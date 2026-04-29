@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { ThumbsUp, MessageSquare, GitFork, Pencil } from "lucide-react";
 import CommentBlock from "./CommentBlock";
-import { forkNoteById } from "../../lib/api/note";
 import { Editor, EditorContent } from "@tiptap/react";
 import type { Note } from "../../lib/types/note";
+import { useState } from "react";
+import ForkModal from "../modal/ForkModal";
 
 const comments = [
   {
@@ -56,13 +57,10 @@ export default function MainView({
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [showForkModal, setShowForkModal] = useState(false);
+
   const handleEdit = () => {
     navigate(`/note/${id}/edit`);
-  };
-
-  const handleFork = async () => {
-    const forkedNote = await forkNoteById(id, note.author);
-    navigate(`/note/${forkedNote.id}`);
   };
 
   return (
@@ -108,8 +106,8 @@ export default function MainView({
         </p>
 
         <button
-          onClick={handleFork}
-          className="ml-auto flex items-center gap-2 rounded transition-colors hover:text-zinc-200"
+          onClick={() => setShowForkModal(true)}
+          className="ml-auto flex cursor-pointer items-center gap-2 rounded transition-colors hover:text-teal-400"
         >
           <GitFork size={12} />
           {note.forks} forks
@@ -143,6 +141,10 @@ export default function MainView({
           ))}
         </div>
       </div>
+
+      {showForkModal && (
+        <ForkModal note={note} onClose={() => setShowForkModal(false)} />
+      )}
     </div>
   );
 }

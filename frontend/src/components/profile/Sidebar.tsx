@@ -10,7 +10,7 @@ const badges = [
   { label: "Bug Squasher", color: "bg-red-500" },
 ];
 
-export default function SidebarLeft({
+export default function Sidebar({
   user,
   notes,
 }: {
@@ -45,7 +45,7 @@ export default function SidebarLeft({
         </p>
 
         <button className="w-full cursor-pointer rounded-lg border border-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400 transition-colors hover:bg-zinc-900 hover:text-zinc-100">
-          edit profile
+          Edit Profile
         </button>
       </div>
 
