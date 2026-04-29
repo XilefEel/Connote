@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { getUserDataByUsername } from "../../lib/api/user";
+import { getCurrentUser } from "../../lib/api/auth";
+
 const trending_tags = [
   {
     tag: "linear algebra",
@@ -25,26 +29,49 @@ const trending_tags = [
   },
 ];
 
-const activities = [
-  {
-    activity: "notes created",
-    count: 5,
-  },
-  {
-    activity: "forks",
-    count: 2,
-  },
-  {
-    activity: "open PRs",
-    count: 1,
-  },
-  {
-    activity: "likes",
-    count: 10,
-  },
-];
-
 export default function SidebarRight() {
+  const currentUser = getCurrentUser();
+  const [userStats, setUserStats] = useState({
+    notesCreated: 0,
+    forks: 0,
+    openPRCount: 0,
+  });
+
+  const activities = [
+    {
+      activity: "notes created",
+      count: userStats.notesCreated,
+    },
+    {
+      activity: "forks",
+      count: userStats.forks,
+    },
+    {
+      activity: "open PRs",
+      count: userStats.openPRCount,
+    },
+    {
+      activity: "likes",
+      count: 0,
+    },
+  ];
+
+  useEffect(() => {
+    async function fetchData() {
+      const { stats, openPRs } = await getUserDataByUsername(
+        currentUser.username,
+      );
+
+      setUserStats({
+        notesCreated: stats.notesCreated,
+        forks: stats.forksCount,
+        openPRCount: openPRs.length,
+      });
+    }
+
+    fetchData();
+  }, [currentUser.username]);
+
   return (
     <div className="flex w-56 flex-col items-center gap-4 border-l border-zinc-700 p-3 text-xs">
       <div className="flex w-full flex-col rounded-lg border border-zinc-700 bg-zinc-900 p-4">

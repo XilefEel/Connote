@@ -1,4 +1,3 @@
-import type { Note } from "../../lib/types/note";
 import type { User } from "../../lib/types/user";
 import { cn } from "../../lib/utils";
 
@@ -12,15 +11,15 @@ const badges = [
 
 export default function Sidebar({
   user,
-  notes,
+  notesCount,
 }: {
   user: User;
-  notes: Note[];
+  notesCount: number;
 }) {
   const stats = [
     {
       label: "Notes",
-      value: notes.filter((note) => note.author === user.username).length,
+      value: notesCount,
     },
     { label: "Followers", value: 12 },
     { label: "PRs merged", value: 3 },

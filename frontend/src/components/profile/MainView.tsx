@@ -1,28 +1,34 @@
 import { useState } from "react";
 import NoteCard from "../NoteCard";
 import { cn } from "../../lib/utils";
-import type { Note } from "../../lib/types/note";
-import type { User } from "../../lib/types/user";
+import type { Note, PullRequest } from "../../lib/types/note";
 import { Notebook, GitFork, GitPullRequest, Heart } from "lucide-react";
+import PRCard from "../PRCard";
 
 export default function MainView({
-  user,
   notes,
+  openPrs,
 }: {
-  user: User;
   notes: Note[];
+  openPrs: PullRequest[];
 }) {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<
+    "Notes" | "Forks" | "Pull Requests" | "Likes"
+  >("Notes");
 
   const tabs = [
     {
       Icon: Notebook,
       label: "Notes",
-      value: notes.filter((note) => note.author === user.username).length,
+      value: notes.filter((n) => !n.forkedFrom).length,
     },
-    { Icon: GitFork, label: "Forks", value: 19 },
-    { Icon: GitPullRequest, label: "Pull Requests", value: 8 },
-    { Icon: Heart, label: "Likes", value: 15 },
+    {
+      Icon: GitFork,
+      label: "Forks",
+      value: notes.filter((n) => n.forkedFrom).length,
+    },
+    { Icon: GitPullRequest, label: "Pull Requests", value: openPrs.length },
+    { Icon: Heart, label: "Likes", value: 0 },
   ];
 
   return (
@@ -31,13 +37,17 @@ export default function MainView({
         {tabs.map((tab, index) => (
           <div
             key={index}
-            onClick={() => setActiveTab(index)}
+            onClick={() =>
+              setActiveTab(
+                tab.label as "Notes" | "Forks" | "Pull Requests" | "Likes",
+              )
+            }
             className="group relative flex cursor-pointer flex-row items-center justify-center gap-1 rounded-lg px-4 text-xs font-semibold tracking-wide transition-colors"
           >
             <tab.Icon
               className={cn(
                 "text-zinc-300 transition-colors group-hover:text-white",
-                activeTab === index && "text-white",
+                activeTab === tab.label && "text-white",
               )}
               size={14}
             />
@@ -45,7 +55,7 @@ export default function MainView({
             <span
               className={cn(
                 "text-zinc-300 transition-colors group-hover:text-white",
-                activeTab === index && "text-white",
+                activeTab === tab.label && "text-white",
               )}
             >
               {tab.label}
@@ -53,7 +63,7 @@ export default function MainView({
 
             <span className="text-zinc-500">({tab.value})</span>
 
-            {activeTab === index && (
+            {activeTab === tab.label && (
               <div className="absolute -bottom-2 h-0.5 w-full bg-teal-500" />
             )}
           </div>
@@ -61,9 +71,18 @@ export default function MainView({
       </div>
 
       <div className="flex flex-col gap-3">
-        {notes.map((note, index) => (
-          <NoteCard key={index} note={note} />
-        ))}
+        {activeTab === "Notes" &&
+          notes
+            .filter((n) => !n.forkedFrom)
+            .map((note) => <NoteCard key={note.id} note={note} />)}
+
+        {activeTab === "Forks" &&
+          notes
+            .filter((n) => n.forkedFrom)
+            .map((note) => <NoteCard key={note.id} note={note} />)}
+
+        {activeTab === "Pull Requests" &&
+          openPrs.map((pr) => <PRCard key={pr.id} pullRequest={pr} />)}
       </div>
     </div>
   );
