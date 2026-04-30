@@ -39,8 +39,8 @@ export default function Sidebar({
         </div>
 
         <p className="text-center text-xs text-zinc-400">
-          CS student @ NUS. Notes on algorithms, data structures & calculus.
-          Open to collabs.
+          Mahasiswa Universitas Bina Nusantara. Tertarik dengan koding,
+          algoritma, dan open source.
         </p>
 
         <button className="w-full cursor-pointer rounded-lg border border-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400 transition-colors hover:bg-zinc-900 hover:text-zinc-100">

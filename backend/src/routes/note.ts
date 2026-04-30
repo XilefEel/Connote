@@ -129,8 +129,6 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
     async ({ body }) => {
       const { tags: tagNames, ...noteData } = body;
 
-      console.log("inserting note:", noteData);
-
       const note = db
         .insert(notesTable)
         .values({
@@ -140,8 +138,6 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
         })
         .returning()
         .get();
-
-      console.log("note created:", note);
 
       await syncTags(note.id, tagNames);
 
@@ -343,8 +339,6 @@ export const notesRoutes = new Elysia({ prefix: "/notes" })
   .patch(
     "/pull-requests/:id",
     async ({ params, body, set }) => {
-      console.log("Updating PR with id:", params.id, "and body:", body);
-
       const pr = db
         .select()
         .from(pullRequestsTable)

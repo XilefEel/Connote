@@ -23,7 +23,7 @@ export default function ForkedFrom({
         <span>
           {originalNote ? (
             <div>
-              This note is a fork of{" "}
+              Ini adalah fork dari{" "}
               <Link
                 to={`/note/${note.forkedFrom}`}
                 className="text-teal-500 hover:text-teal-400"
@@ -32,7 +32,7 @@ export default function ForkedFrom({
               </Link>
             </div>
           ) : (
-            "ini adalah catatan asli"
+            "Ini adalah catatan asli"
           )}
         </span>
 
@@ -41,7 +41,7 @@ export default function ForkedFrom({
             onClick={() => setShowPRModal(true)}
             className="mt-3 cursor-pointer rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-teal-500"
           >
-            Submit PR
+            Kirim PR
           </button>
         )}
       </p>

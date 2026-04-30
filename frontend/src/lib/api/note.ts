@@ -40,8 +40,6 @@ export const getNoteById = async (id: string): Promise<Note> => {
 
 export const createNote = async (note: NewNote): Promise<Note> => {
   try {
-    console.log("Creating note with data:", note);
-
     const response = await fetch(`${BASE_URL}/notes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -139,8 +137,6 @@ export const updatePullRequest = async (
   prId: string,
   status: "merged" | "rejected",
 ): Promise<PullRequest> => {
-  console.log("Updating PR with id:", prId, "to status:", status);
-
   const response = await fetch(`${BASE_URL}/notes/pull-requests/${prId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },

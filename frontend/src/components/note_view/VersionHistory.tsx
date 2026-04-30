@@ -32,7 +32,7 @@ export default function VersionHistory({
                   index === 0 && "font-semibold text-teal-400",
                 )}
               >
-                v{version.version} {index === 0 && "- current"}
+                v{version.version} {index === 0 && "- terbaru"}
               </span>
 
               <span className="text-xs text-zinc-500">

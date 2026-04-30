@@ -33,7 +33,7 @@ export default function ForkModal({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-teal-400">
             <GitFork size={18} />
-            <span className="font-semibold">Fork this note</span>
+            <span className="font-semibold">Fork catatan ini</span>
           </div>
 
           <button
@@ -45,15 +45,16 @@ export default function ForkModal({
         </div>
 
         <p className="text-sm text-zinc-400">
-          You're about to fork
+          Kamu akan membuat fork dari catatan
           <span className="font-medium text-zinc-200"> "{note.title}" </span>
-          by
+          dari
           <span className="font-medium text-teal-400"> {note.author}</span>
         </p>
 
         <p className="text-xs text-zinc-600">
-          Forking will make a copy of the note under your account. You can edit
-          it freely and submit a PR back to the original.
+          Kamu akan membuat salinan catatan di bawah akunmu. Kamu dapat
+          mengeditnya secara bebas dan mengirimkan PR kembali ke catatan
+          aslinya.
         </p>
 
         <div className="flex justify-between gap-2 pt-2">
@@ -69,7 +70,7 @@ export default function ForkModal({
             className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-teal-500 px-4 py-1.5 text-sm font-medium text-zinc-100 transition-colors hover:bg-teal-400"
           >
             <GitFork size={14} />
-            Fork Note
+            Fork
           </button>
         </div>
       </div>

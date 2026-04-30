@@ -47,11 +47,11 @@ export default function PullRequests({
   return (
     <div className="border-t border-t-zinc-800 pt-4">
       <h3 className="mb-2 text-xs font-semibold tracking-wide text-zinc-500 uppercase">
-        Open Pull Requests
+        Pull Requests
       </h3>
 
       {prs.filter((pr) => pr.status === "open").length === 0 ? (
-        <p className="text-xs text-zinc-600">No open pull requests</p>
+        <p className="text-xs text-zinc-600">Tidak ada pull requests</p>
       ) : (
         <div className="flex flex-col gap-2">
           {prs
@@ -63,7 +63,7 @@ export default function PullRequests({
               >
                 <p className="text-sm text-zinc-200">{pr.title}</p>
                 <p className="text-xs text-zinc-500">
-                  by {pr.author} · {pr.createdAt.slice(0, 10)}
+                  oleh {pr.author} · {pr.createdAt.slice(0, 10)}
                 </p>
 
                 <div className="mt-1 flex gap-2">
@@ -71,14 +71,14 @@ export default function PullRequests({
                     onClick={() => handleReject(pr.id)}
                     className="flex-1 rounded border border-zinc-700 py-1 text-xs text-zinc-400 hover:text-zinc-200"
                   >
-                    Reject
+                    Tolak
                   </button>
 
                   <button
                     onClick={() => handleMerge(pr.id)}
                     className="flex-1 rounded bg-teal-600 py-1 text-xs text-white hover:bg-teal-500"
                   >
-                    Merge
+                    Gabung
                   </button>
                 </div>
               </div>

@@ -38,7 +38,7 @@ export default function PRSubmitModal({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-teal-400">
             <GitMerge size={18} />
-            <span className="font-semibold">Submit Pull Request</span>
+            <span className="font-semibold">Kirim Pull Request</span>
           </div>
 
           <button
@@ -50,15 +50,14 @@ export default function PRSubmitModal({
         </div>
 
         <p className="text-xs text-zinc-500">
-          You are proposing changes to
+          Kamu akan mengusulkan perubahan pada catatan
           <span className="mx-1 text-teal-400">{note.author}</span>
-          's note
         </p>
 
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="PR title..."
+          placeholder="Judul PR..."
           className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-teal-500"
         />
 
@@ -74,7 +73,7 @@ export default function PRSubmitModal({
             onClick={handleSubmit}
             className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-teal-500 px-4 py-1.5 text-sm font-medium text-zinc-100 transition-colors hover:bg-teal-400"
           >
-            Submit PR
+            Kirim PR
           </button>
         </div>
       </div>
